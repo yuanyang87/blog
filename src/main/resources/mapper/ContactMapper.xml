@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="blog.geek.dao.ContactDao">
+    <resultMap id="contact" type="blog.geek.entity.Contact">
+        <id column="contact_id" javaType="String" jdbcType="VARCHAR" property="contactId"/>
+        <result column="contact_name" javaType="String" jdbcType="VARCHAR" property="contactName"/>
+        <result column="contact_phone" javaType="String" jdbcType="VARCHAR" property="contactPhone"/>
+        <result column="contact_content" javaType="String" jdbcType="VARCHAR" property="contactContent"/>
+    </resultMap>
+    
+    <sql id="columns">
+        contact_id,contact_name,contact_phone,contact_content
+    </sql>
+
+    <insert id="insertContact" parameterType="contact">
+        INSERT INTO contact
+        (<include refid="columns"/>)
+            VALUES
+              (#{contactId},#{contactName},#{contactPhone},#{contactContent})
+    </insert>
+
+    <delete id="deleteContact" parameterType="String">
+        DELETE FROM contact WHERE contact_id = #{arg0}
+    </delete>
+
+    <delete id="deleteContacts" parameterType="String">
+        DELETE FROM contact WHERE contact_id IN
+          <foreach collection="array" item="id" open="(" separator="," close=")">
+              #{id}
+          </foreach>
+    </delete>
+
+    <delete id="deleteAllContacts">
+        DELETE FROM contact
+    </delete>
+    
+    <select id="findAllContacts" resultMap="contact">
+        SELECT
+          <include refid="columns"/>
+            FROM contact
+    </select>
+</mapper>
