@@ -1,4 +1,4 @@
-package blog.geek.utils;
+package blog.geek.exception;
 
 /**
  * 自定义异常,当service层处理失败直接抛出异常,避免了过多的判断语句

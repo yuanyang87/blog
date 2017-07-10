@@ -2,7 +2,7 @@ package blog.geek.user.service;
 
 import blog.geek.dao.ContactDao;
 import blog.geek.entity.Contact;
-import blog.geek.utils.ErrorException;
+import blog.geek.exception.ErrorException;
 import blog.geek.utils.RandomStringUtil;
 import blog.geek.utils.ValidateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
  * @version 1.0
  */
 @Service
-public class UserContactService {
+public class GuestContactService {
 
     @Autowired
     private ContactDao contactDao;

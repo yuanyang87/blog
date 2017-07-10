@@ -1,8 +1,7 @@
 package blog.geek.test;
 
-import blog.geek.dao.UserDao;
 import blog.geek.entity.User;
-import blog.geek.user.service.UserService;
+import blog.geek.manager.service.UserService;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

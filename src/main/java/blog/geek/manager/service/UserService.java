@@ -1,9 +1,9 @@
-package blog.geek.user.service;
+package blog.geek.manager.service;
 
 import blog.geek.dao.UserDao;
 import blog.geek.entity.User;
 import blog.geek.utils.EncryptUtil;
-import blog.geek.utils.ErrorException;
+import blog.geek.exception.ErrorException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

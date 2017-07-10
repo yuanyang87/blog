@@ -2,7 +2,7 @@ package blog.geek.test;
 
 import blog.geek.entity.Contact;
 import blog.geek.manager.service.MngContactService;
-import blog.geek.user.service.UserContactService;
+import blog.geek.user.service.GuestContactService;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -17,7 +17,7 @@ import java.util.List;
 public class ContactTest extends BaseActionTest{
 
     @Autowired
-    private UserContactService userContactService;
+    private GuestContactService guestContactService;
 
     @Autowired
     private MngContactService mngContactService;
@@ -31,7 +31,7 @@ public class ContactTest extends BaseActionTest{
         contact.setContactPhone("18875062338");
         contact.setContactContent("This is a test");
 
-        userContactService.insertContact(contact);
+        guestContactService.insertContact(contact);
 
     }
 

@@ -2,7 +2,7 @@ package blog.geek.manager.service;
 
 import blog.geek.dao.ContactDao;
 import blog.geek.entity.Contact;
-import blog.geek.utils.ErrorException;
+import blog.geek.exception.ErrorException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

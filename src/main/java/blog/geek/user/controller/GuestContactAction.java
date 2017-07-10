@@ -1,7 +1,7 @@
 package blog.geek.user.controller;
 
 import blog.geek.entity.Contact;
-import blog.geek.user.service.UserContactService;
+import blog.geek.user.service.GuestContactService;
 import blog.geek.utils.Result;
 import blog.geek.utils.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,14 +13,14 @@ import org.springframework.web.bind.annotation.*;
  * @version 1.0
  */
 @RestController
-public class UserContactAction {
+public class GuestContactAction {
 
     @Autowired
-    private UserContactService userContactService;
+    private GuestContactService guestContactService;
 
     @RequestMapping(value = "/addContact",method = RequestMethod.POST)
     public Result insertContact(Contact contact){
-        userContactService.insertContact(contact);
+        guestContactService.insertContact(contact);
         return ResultUtil.successResult(null);
     }
 

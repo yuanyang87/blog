@@ -1,5 +1,8 @@
-package blog.geek.utils;
+package blog.geek.exception;
 
+import blog.geek.exception.ErrorException;
+import blog.geek.utils.Result;
+import blog.geek.utils.ResultUtil;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;

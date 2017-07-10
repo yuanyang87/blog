@@ -9,7 +9,7 @@ public class Banner {
 
     private String bannerId;    //轮播图编号
     private String bannerType;  //轮播图类型(分为顶部轮播与下方的下轮播)
-    private String[] bannerImg; //轮播图数组
+    private String bannerImg;   //轮播图地址
 
     //start getter and setter
     public String getBannerId() {
@@ -28,12 +28,13 @@ public class Banner {
         this.bannerType = bannerType;
     }
 
-    public String[] getBannerImg() {
+    public String getBannerImg() {
         return bannerImg;
     }
 
-    public void setBannerImg(String[] bannerImg) {
+    public void setBannerImg(String bannerImg) {
         this.bannerImg = bannerImg;
     }
+
     //end getter and setter
 }

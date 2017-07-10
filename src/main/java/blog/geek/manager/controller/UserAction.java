@@ -1,7 +1,7 @@
 package blog.geek.manager.controller;
 
 import blog.geek.entity.User;
-import blog.geek.user.service.UserService;
+import blog.geek.manager.service.UserService;
 import blog.geek.utils.Result;
 import blog.geek.utils.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
