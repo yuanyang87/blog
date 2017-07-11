@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="blog.geek.dao.ScheduleDao">
+    <resultMap id="schedule" type="schedule">
+        <id column="schedule_id" javaType="String" jdbcType="VARCHAR" property="scheduleId"/>
+        <result column="schedule_name" javaType="String" jdbcType="VARCHAR" property="scheduleName"/>
+        <result column="schedule_content" javaType="String" jdbcType="VARCHAR" property="scheduleContent"/>
+        <result column="schedule_weekday" javaType="String" jdbcType="VARCHAR" property="scheduleWeekday"/>
+        <result column="schedule_time" javaType="String" jdbcType="VARCHAR" property="scheduleTime"/>
+    </resultMap>
+
+    <insert id="insertSchedule" parameterType="java.util.List">
+        INSERT INTO
+          schedule(schedule_id,schedule_name,schedule_content,schedule_weekday,schedule_time)
+        VALUES
+        <foreach collection="schedules" separator="," item="s">
+            (#{s.scheduleId},#{s.scheduleName},#{s.scheduleContent},#{s.scheduleWeekday},#{s.scheduleTime})
+        </foreach>
+    </insert>
+
+    <update id="updateSchedule" parameterType="java.util.List">
+        <foreach collection="schedules" item="s" separator=";">
+            UPDATE schedule
+            <set>
+                <if test="s.scheduleName != null and s.scheduleName != ''">
+                    schedule_name = #{s.scheduleName},
+                </if>
+                <if test="s.scheduleContent != null and s.scheduleContent != ''">
+                    schedule_content = #{s.scheduleContent},
+                </if>
+                <if test="s.scheduleWeekday != null and s.scheduleWeekday != ''">
+                    schedule_weekday = #{s.scheduleWeekday},
+                </if>
+                <if test="s.scheduleTime != null and s.scheduleTime != ''">
+                    schedule_time = #{s.scheduleTime}
+                </if>
+            </set>
+            WHERE schedule_id = #{s.scheduleId}
+        </foreach>
+    </update>
+
+    <delete id="deleteSchedule" parameterType="String">
+        DELETE FROM schedule WHERE schedule_id IN
+        <foreach collection="scheduleIds" open="(" separator="," close=")" item="id">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="findAllSchedule" resultMap="schedule">
+        SELECT schedule_id,schedule_name,schedule_content,schedule_weekday,schedule_time
+        FROM schedule
+    </select>
+
+</mapper>

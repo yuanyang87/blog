@@ -19,6 +19,7 @@ import java.util.List;
  * @version 1.0
  */
 @RestController
+@RequestMapping("/management")
 public class MngContactAction {
 
     @Autowired
