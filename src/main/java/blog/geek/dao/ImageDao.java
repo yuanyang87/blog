@@ -1,12 +1,9 @@
 package blog.geek.dao;
 
-import blog.geek.entity.Image;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 /**
- * 图片Dao
+ * 图片DAO
  * @author yuanyang
  * @version 1.0
  */
@@ -14,24 +11,10 @@ import java.util.List;
 public interface ImageDao {
 
     /**
-     * 增加一张图片
-     * @param image
+     * 通过图片指向某对象的关键字,获取图片的虚拟地址,以供删除,
+     * @param key
      * @return
      */
-    int insertImage(Image image);
-
-    /**
-     * 删除一张图片
-     * @param imageId
-     * @return
-     */
-    int deleteImage(String imageId);
-
-    /**
-     * 更新一张图片
-     * @param image
-     * @return
-     */
-    int updateImage(Image image);
+    String getImagePath(String key);
 
 }

@@ -29,6 +29,7 @@ public class MyExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public Result handleException(Exception e){
+        e.printStackTrace();
         return ResultUtil.UNHANDED_RESULT;
     }
 }

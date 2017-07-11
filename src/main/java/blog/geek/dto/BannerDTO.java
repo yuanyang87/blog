@@ -1,5 +1,7 @@
 package blog.geek.dto;
 
+import java.util.List;
+
 /**
  * 轮播dto对象
  * @author yuanyang
@@ -8,7 +10,7 @@ package blog.geek.dto;
 public class BannerDTO {
 
     private String bannerType;
-    private String[] bannerImg;
+    private List<String> bannerImg;
 
     public String getBannerType() {
         return bannerType;
@@ -18,11 +20,11 @@ public class BannerDTO {
         this.bannerType = bannerType;
     }
 
-    public String[] getBannerImg() {
+    public List<String> getBannerImg() {
         return bannerImg;
     }
 
-    public void setBannerImg(String[] bannerImg) {
+    public void setBannerImg(List<String> bannerImg) {
         this.bannerImg = bannerImg;
     }
 }

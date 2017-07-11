@@ -13,6 +13,9 @@ public class Image {
     private String imageRef;    //图片所指向的实体(外键关系)
 
     //constructor
+    public Image() {
+    }
+
     public Image(String imageId, String imageName, String imageRef) {
         this.imageId = imageId;
         this.imageName = imageName;

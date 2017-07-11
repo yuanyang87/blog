@@ -5,7 +5,6 @@ import blog.geek.entity.Banner;
 import blog.geek.entity.Image;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.PatchMapping;
 
 import java.util.List;
 
@@ -19,17 +18,21 @@ public interface BannerDao {
 
     /**
      * 添加一张轮播图
+     * 同时在banner表与image表里面添加
      * @param banner
      * @return
      */
     int insertBanner(Banner banner);
 
+    int insertBannerImage(@Param("banner") Banner banner,@Param("image") Image image);
+
     /**
-     * 修改一张轮播图
+     * 修改一张轮播图,同时修改banner与image表的数据
      * @param banner
+     * @param image
      * @return
      */
-    int updateBanner(Banner banner);
+    int updateBanner(@Param("banner") Banner banner,@Param("image") Image image);
 
     /**
      * 删除一张轮播图
