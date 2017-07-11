@@ -3,29 +3,8 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="blog.geek.dao.ImageDao">
 
-    <insert id="insertImage" parameterType="image">
-        INSERT INTO image(image_id,image_name,image_address,image_ref)
-          VALUES (#{imageId},#{imageName},#{imageAddress},#{imageRef})
-    </insert>
-
-    <delete id="deleteImage" parameterType="String">
-        DELETE FROM image WHERE image_id = #{arg0}
-    </delete>
-
-    <update id="updateImage" parameterType="image">
-        UPDATE image
-        <set>
-            <if test="imageName != null and imageName != ''">
-                image_name = #{imageName},
-            </if>
-            <if test="imageAddress != null and imageAddress != ''">
-                image_address = #{imageAddress},
-            </if>
-            <if test="imageRef != null and imageRef != ''">
-                image_ref = #{imageRef}
-            </if>
-        </set>
-        WHERE image_id = #{imageId}
-    </update>
+    <select id="getImagePath" parameterType="String" resultType="String">
+        SELECT image_address FROM image WHERE image_ref = #{arg0}
+    </select>
 
 </mapper>
