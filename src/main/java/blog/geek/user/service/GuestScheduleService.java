@@ -23,8 +23,8 @@ public class GuestScheduleService {
      * 获取整张课程表
      * @return
      */
-    public List<Schedule> findAllSchedule() {
-        List<Schedule> schedules = scheduleDao.findAllSchedule();
+    public List<Schedule> findAllSchedules() {
+        List<Schedule> schedules = scheduleDao.findAllSchedules();
         if (schedules == null)
             throw new ErrorException("没有找到你要的数据");
         return schedules;

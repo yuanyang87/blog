@@ -12,33 +12,54 @@ import java.util.List;
  * @version 1.0
  */
 @Repository
-public interface ScheduleDao     {
+public interface ScheduleDao {
 
     /**
-     * 添加课程表
+     * 批量添加课程表
      * @param schedules
      * @return
      */
-    int insertSchedule(@Param("schedules") List<Schedule> schedules);
+    int insertSchedules(@Param("schedules") List<Schedule> schedules);
 
     /**
-     * 删除课程表
+     * 插入单个课表
+     * @param schedule
+     * @return
+     */
+    int insertSchedule(Schedule schedule);
+
+    /**
+     * 批量删除课程表
      * @param scheduleIds
      * @return
      */
-    int deleteSchedule(@Param("scheduleIds") List<String> scheduleIds);
+    int deleteSchedules(@Param("scheduleIds") List<String> scheduleIds);
 
     /**
-     * 更新课程表
+     * 删除单个课表
+     * @param scheduleId
+     * @return
+     */
+    int deleteSchedule(String scheduleId);
+
+    /**
+     * 批量更新课程表
      * @param schedules
      * @return
      */
-    int updateSchedule(@Param("schedules") List<Schedule> schedules);
+    int updateSchedules(@Param("schedules") List<Schedule> schedules);
+
+    /**
+     * 更新单个课表
+     * @param schedule
+     * @return
+     */
+    int updateSchedule(Schedule schedule);
 
     /**
      * 获取整张课程表内容
      * @return
      */
-    List<Schedule> findAllSchedule();
+    List<Schedule> findAllSchedules();
 
 }

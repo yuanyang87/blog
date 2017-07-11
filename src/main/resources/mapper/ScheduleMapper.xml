@@ -10,7 +10,7 @@
         <result column="schedule_time" javaType="String" jdbcType="VARCHAR" property="scheduleTime"/>
     </resultMap>
 
-    <insert id="insertSchedule" parameterType="java.util.List">
+    <insert id="insertSchedules" parameterType="java.util.List">
         INSERT INTO
           schedule(schedule_id,schedule_name,schedule_content,schedule_weekday,schedule_time)
         VALUES
@@ -19,7 +19,25 @@
         </foreach>
     </insert>
 
-    <update id="updateSchedule" parameterType="java.util.List">
+    <insert id="insertSchedule" parameterType="schedule">
+        INSERT INTO
+          schedule(schedule_id,schedule_name,schedule_content,schedule_weekday,schedule_time)
+        VALUES
+          (#{scheduleId},#{scheduleName},#{scheduleContent},#{scheduleWeekday},#{scheduleTime})
+    </insert>
+
+    <delete id="deleteSchedules" parameterType="String">
+        DELETE FROM schedule WHERE schedule_id IN
+        <foreach collection="scheduleIds" open="(" separator="," close=")" item="id">
+            #{id}
+        </foreach>
+    </delete>
+
+    <delete id="deleteSchedule" parameterType="String">
+        DELETE FROM schedule WHERE schedule_id = #{arg0}
+    </delete>
+
+    <update id="updateSchedules" parameterType="java.util.List">
         <foreach collection="schedules" item="s" separator=";">
             UPDATE schedule
             <set>
@@ -40,12 +58,24 @@
         </foreach>
     </update>
 
-    <delete id="deleteSchedule" parameterType="String">
-        DELETE FROM schedule WHERE schedule_id IN
-        <foreach collection="scheduleIds" open="(" separator="," close=")" item="id">
-            #{id}
-        </foreach>
-    </delete>
+    <update id="updateSchedule" parameterType="schedule">
+        UPDATE schedule
+        <set>
+            <if test="scheduleName != null and scheduleName != ''">
+                schedule_name = #{scheduleName},
+            </if>
+            <if test="scheduleContent != null and scheduleContent != ''">
+                schedule_content = #{scheduleContent},
+            </if>
+            <if test="scheduleWeekday != null and scheduleWeekday != ''">
+                schedule_weekday = #{scheduleWeekday},
+            </if>
+            <if test="scheduleTime != null and scheduleTime != ''">
+                schedule_time = #{scheduleTime}
+            </if>
+        </set>
+        WHERE schedule_id = #{scheduleId}
+    </update>
 
     <select id="findAllSchedule" resultMap="schedule">
         SELECT schedule_id,schedule_name,schedule_content,schedule_weekday,schedule_time

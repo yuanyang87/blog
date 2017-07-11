@@ -28,7 +28,7 @@ public class GuestScheduleAction {
      */
     @RequestMapping(value = "/findAllSchedule",method = RequestMethod.GET)
     public Result findAllSchedule(){
-        List<Schedule> schedules = guestScheduleService.findAllSchedule();
+        List<Schedule> schedules = guestScheduleService.findAllSchedules();
         return ResultUtil.successResult(schedules);
     }
 
