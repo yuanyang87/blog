@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="blog.geek.dao.TrainDao">
+    <resultMap id="train" type="train">
+        <id column="train_id" javaType="String" jdbcType="VARCHAR" property="trainId"/>
+        <result column="train_name" javaType="String" jdbcType="VARCHAR" property="trainName"/>
+        <result column="train_time" javaType="String" jdbcType="VARCHAR" property="trainTime"/>
+        <result column="train_content" javaType="String" jdbcType="VARCHAR" property="trainContent"/>
+        <result column="train_link" javaType="String" jdbcType="VARCHAR" property="trainLink"/>
+        <collection property="trainImg" ofType="String">
+            <result column="image_address"/>
+        </collection>
+    </resultMap>
+
+    <insert id="insertTrain" parameterType="train">
+        INSERT INTO train(train_id,train_name,train_time,train_content,train_link)
+        VALUES (#{trainId},#{trainName},#{trainTime},#{trainContent},#{trainLink})
+    </insert>
+
+    <delete id="deleteTrain" parameterType="String">
+        DELETE FROM train WHERE train_id = #{arg0}
+    </delete>
+
+    <delete id="deleteTrains" parameterType="java.util.List">
+        DELETE FROM train WHERE train_id IN
+        <foreach collection="trainIds" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <update id="updateTrain" parameterType="train">
+        UPDATE train
+        <set>
+            <if test="trainName != null and trainName != ''">
+                train_name = #{trainName},
+            </if>
+            <if test="trainTime != null and trainTime != ''">
+                train_time = #{trainTime},
+            </if>
+            <if test="trainContent != null and trainContent != ''">
+                train_content = #{trainContent},
+            </if>
+            <if test="trainLink != null and trainLink != ''">
+                train_link = #{trainLink}
+            </if>
+        </set>
+        WHERE train_id = #{trainId}
+    </update>
+
+    <select id="findAllTrains" resultMap="train">
+        SELECT train_id,train_name,train_time,train_content,train_link
+          FROM image i
+            INNER JOIN train tr
+              WHERE tr.train_id = i.image_ref
+    </select>
+</mapper>

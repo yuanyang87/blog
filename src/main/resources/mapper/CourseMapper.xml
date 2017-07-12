@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="blog.geek.dao.CourseDao">
+    <resultMap id="course" type="course">
+        <id column="course_id" javaType="String" jdbcType="VARCHAR" property="courseId"/>
+        <result column="course_name" javaType="String" jdbcType="VARCHAR" property="courseName"/>
+        <result column="course_content" javaType="String" jdbcType="VARCHAR" property="courseContent"/>
+        <result column="course_link" javaType="String" jdbcType="VARCHAR" property="courseLink"/>
+        <collection property="courseImg" ofType="String">
+            <result column="image_address"/>
+        </collection>
+    </resultMap>
+
+    <insert id="insertCourse" parameterType="course">
+        INSERT INTO course(course_id,course_name,course_content,course_link)
+        VALUES (#{courseId},#{courseName},#{courseContent},#{courseLink})
+    </insert>
+
+    <delete id="deleteCourse" parameterType="String">
+        DELETE FROM course WHERE course_id = #{arg0}
+    </delete>
+
+    <delete id="deleteCourses" parameterType="java.util.List">
+        DELETE FROM course WHERE course_id IN
+        <foreach collection="courseIds" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <update id="updateCourse" parameterType="course">
+        UPDATE course
+        <set>
+            <if test="courseName != null and courseName != ''">
+                course_name = #{courseName},
+            </if>
+            <if test="courseContent != null and courseContent != ''">
+                course_content = #{courseContent},
+            </if>
+            <if test="courseLink != null and courseLink != ''">
+                course_link = #{courseLink}
+            </if>
+        </set>
+        WHERE course_id = #{courseId}
+    </update>
+
+    <select id="findAllCourses">
+        SELECT course_id,course_name,course_content,course_link,image_address
+          FROM image i
+            INNER JOIN course cou
+              WHERE cou.course_id = i.image_ref
+    </select>
+</mapper>

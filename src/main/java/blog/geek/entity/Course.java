@@ -1,5 +1,7 @@
 package blog.geek.entity;
 
+import java.util.List;
+
 /**
  * 课程
  * @author yuanyang
@@ -9,9 +11,9 @@ public class Course {
 
     private String courseId;    //编号
     private String courseName;  //名称
-    private String courseTitle; //课程标题
+    private String courseContent; //课程内容
     private String courseLink;  //视频链接
-    private String[] courseImage; //图片链接
+    private List<String> courseImage; //图片链接
 
     //start getter and setter
     public String getCourseId() {
@@ -30,12 +32,12 @@ public class Course {
         this.courseName = courseName;
     }
 
-    public String getCourseTitle() {
-        return courseTitle;
+    public String getCourseContent() {
+        return courseContent;
     }
 
-    public void setCourseTitle(String courseTitle) {
-        this.courseTitle = courseTitle;
+    public void setCourseContent(String courseContent) {
+        this.courseContent = courseContent;
     }
 
     public String getCourseLink() {
@@ -46,11 +48,11 @@ public class Course {
         this.courseLink = courseLink;
     }
 
-    public String[] getCourseImage() {
+    public List<String> getCourseImage() {
         return courseImage;
     }
 
-    public void setCourseImage(String[] courseImage) {
+    public void setCourseImage(List<String> courseImage) {
         this.courseImage = courseImage;
     }
     //end getter and setter

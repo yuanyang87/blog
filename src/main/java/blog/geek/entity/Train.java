@@ -1,5 +1,7 @@
 package blog.geek.entity;
 
+import java.util.List;
+
 /**
  * 训练项目
  * @author yuanyang
@@ -12,7 +14,7 @@ public class Train {
     private String trainTime;
     private String trainContent;
     private String trainLink;
-    private String[] trainImg;
+    private List<String> trainImg;
 
     //start getter and setter
     public String getTrainId() {
@@ -55,11 +57,11 @@ public class Train {
         this.trainLink = trainLink;
     }
 
-    public String[] getTrainImg() {
+    public List<String> getTrainImg() {
         return trainImg;
     }
 
-    public void setTrainImg(String[] trainImg) {
+    public void setTrainImg(List<String> trainImg) {
         this.trainImg = trainImg;
     }
 
