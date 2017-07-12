@@ -54,4 +54,13 @@
             INNER JOIN train tr
               WHERE tr.train_id = i.image_ref
     </select>
+
+    <select id="findTrainsByKeyWord" resultMap="train" parameterType="String">
+        SELECT train_id,train_name,train_time,train_content,train_link
+          FROM image i
+            INNER JOIN train tr
+              WHERE tr.train_id = i.image_ref
+              AND tr.train_name LIKE #{arg0}
+              OR tr.train_content LIKE #{arg0}
+    </select>
 </mapper>

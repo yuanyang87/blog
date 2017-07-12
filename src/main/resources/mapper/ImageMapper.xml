@@ -11,6 +11,12 @@
         </foreach>
     </insert>
 
+    <insert id="insertImage" parameterType="image">
+        INSERT INTO image(image_id,image_name,image_address,image_ref)
+        VALUES
+            (#{imageId},#{imageName},#{imageAddress},#{imageRef})
+    </insert>
+
     <delete id="deleteImagesByImagePath" parameterType="java.util.List">
         DELETE FROM image WHERE image_address IN
         <foreach collection="paths" open="(" separator="," close=")" item="path">

@@ -54,4 +54,13 @@
               WHERE a.article_id = i.image_ref
     </select>
 
+    <select id="findArticlesByKeyWord" parameterType="String" resultMap="article">
+        select article_id,article_title,article_Content,article_time,article_link,image_address
+          FROM image i
+            INNER JOIN article a
+              WHERE a.article_id = i.image_ref
+              AND a.article_id LIKE #{arg0}
+              OR a.article_title LIKE #{arg0}
+              OR a.article_Content LIKE #{arg0}
+    </select>
 </mapper>

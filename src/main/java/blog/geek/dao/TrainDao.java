@@ -24,4 +24,5 @@ public interface TrainDao {
 
     List<Train> findAllTrains();
 
+    List<Train> findTrainsByKeyWord(String key);
 }

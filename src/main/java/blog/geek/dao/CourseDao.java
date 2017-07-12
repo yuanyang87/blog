@@ -24,4 +24,5 @@ public interface CourseDao {
 
     List<Course> findAllCourses();
 
+    List<Course> findCoursesByKeyWord(String key);
 }

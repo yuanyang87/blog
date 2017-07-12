@@ -50,4 +50,14 @@
             INNER JOIN course cou
               WHERE cou.course_id = i.image_ref
     </select>
+
+    <select id="findCoursesByKeyWord" resultMap="course" parameterType="String">
+        SELECT course_id,course_name,course_content,course_link,image_address
+          FROM image i
+            INNER JOIN course cou
+              WHERE cou.course_id = i.image_ref
+              AND cou.course_id LIKE #{arg0}
+              OR cou.course_name LIKE #{arg0}
+              OR cou.course_content LIKE #{arg0}
+    </select>
 </mapper>

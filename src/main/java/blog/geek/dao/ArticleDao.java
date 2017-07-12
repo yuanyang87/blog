@@ -24,4 +24,5 @@ public interface ArticleDao {
 
     List<Article> findAllArticles();
 
+    List<Article> findArticlesByKeyWord(String key);
 }

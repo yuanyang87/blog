@@ -59,4 +59,6 @@ public interface ImageDao {
      * @return
      */
     List<String> getImagePaths(@Param("articleIds") List<String> articleIds);
+
+    int insertImage(Image image);
 }
