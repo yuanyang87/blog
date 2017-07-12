@@ -1,13 +1,9 @@
 package blog.geek.test;
 
-import blog.geek.entity.Schedule;
 import blog.geek.manager.service.MngScheduleService;
-import blog.geek.user.service.GuestScheduleService;
-import blog.geek.utils.JsonUtil;
+import blog.geek.guest.service.GuestScheduleService;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.List;
 
 /**
  * 课程表测试

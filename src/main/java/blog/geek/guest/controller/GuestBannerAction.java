@@ -1,7 +1,7 @@
-package blog.geek.user.controller;
+package blog.geek.guest.controller;
 
 import blog.geek.dto.BannerDTO;
-import blog.geek.user.service.GuestBannerService;
+import blog.geek.guest.service.GuestBannerService;
 import blog.geek.utils.Result;
 import blog.geek.utils.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;

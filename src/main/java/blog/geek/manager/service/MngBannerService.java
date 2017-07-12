@@ -2,7 +2,6 @@ package blog.geek.manager.service;
 
 import blog.geek.dao.BannerDao;
 import blog.geek.dao.ImageDao;
-import blog.geek.dto.BannerDTO;
 import blog.geek.entity.Banner;
 import blog.geek.entity.Image;
 import blog.geek.exception.ErrorException;
@@ -62,10 +61,10 @@ public class MngBannerService {
      * @param bannerId
      */
     public void deleteBanner(String bannerId){
-        String imagePath = imageDao.getImagePath(bannerId); //获取该轮播图片的虚拟地址
+        List<String> imagePath = imageDao.getImagePath(bannerId); //获取该轮播图片的虚拟地址
         if (bannerDao.deleteBanner(bannerId) != 1)  //删除数据库中的数据
             throw new ErrorException("数据库出错啦~,请重新操作");
-        fileUtil.deleteImage(imagePath);    //在磁盘上删除图片
+        fileUtil.deleteImage(imagePath.get(0));    //在磁盘上删除图片
     }
 
     /**
@@ -87,14 +86,14 @@ public class MngBannerService {
 
         fileUtil.saveImage(picture,Banner.class.getSimpleName(),banner.getBannerId());
 
-        String imagePath = imageDao.getImagePath(banner.getBannerId());
+        List<String> imagePath = imageDao.getImagePath(banner.getBannerId());
 
         if (bannerDao.updateBanner(banner,image) != 1){
             fileUtil.deleteImage(fileUtil.getRealPath());
             throw new ErrorException("数据库出错啦~,请重新操作");
         }
 
-        fileUtil.deleteImage(imagePath);
+        fileUtil.deleteImage(imagePath.get(0));
     }
 
     /**

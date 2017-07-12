@@ -1,4 +1,4 @@
-package blog.geek.user.service;
+package blog.geek.guest.service;
 
 import blog.geek.dao.BannerDao;
 import blog.geek.dto.BannerDTO;

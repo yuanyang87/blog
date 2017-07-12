@@ -59,10 +59,10 @@ public class MngProductService {
      * @param productId
      */
     public void deleteProduct(String productId){
-        String imagePath = imageDao.getImagePath(productId);
+        List<String> imagePath = imageDao.getImagePath(productId);
         if (productDao.deleteProduct(productId) != 1)
             throw new ErrorException("删除产品操作失败");
-        fileUtil.deleteImage(imagePath);
+        fileUtil.deleteImage(imagePath.get(0));
     }
 
     /**
@@ -80,14 +80,14 @@ public class MngProductService {
 
         fileUtil.saveImage(picture,Product.class.getSimpleName(),product.getProductId());
 
-        String imagePath = imageDao.getImagePath(product.getProductId());
+        List<String> imagePath = imageDao.getImagePath(product.getProductId());
 
         if (productDao.updateProduct(product,image) != 1){
             fileUtil.deleteImage(fileUtil.getRealPath());
             throw new ErrorException("数据库出错啦,请重新操作");
         }
 
-        fileUtil.deleteImage(imagePath);
+        fileUtil.deleteImage(imagePath.get(0));
     }
 
     /**

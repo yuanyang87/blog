@@ -2,7 +2,7 @@ package blog.geek.test;
 
 import blog.geek.entity.Contact;
 import blog.geek.manager.service.MngContactService;
-import blog.geek.user.service.GuestContactService;
+import blog.geek.guest.service.GuestContactService;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

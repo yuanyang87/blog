@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="blog.geek.dao.ArticleDao">
+    <resultMap id="article" type="article">
+        <id column="article_id" javaType="String" jdbcType="VARCHAR" property="articleId"/>
+        <result column="article_title" javaType="String" jdbcType="VARCHAR" property="articleTitle"/>
+        <result column="article_content" javaType="String" jdbcType="VARCHAR" property="articleContent"/>
+        <result column="article_time" javaType="String" jdbcType="VARCHAR" property="articleTime"/>
+        <result column="article_link" javaType="String" jdbcType="VARCHAR" property="articleLink"/>
+        <collection property="articleImg" ofType="String">
+            <result column="image_address"/>
+        </collection>
+    </resultMap>
+
+    <insert id="insertArticle" parameterType="article">
+        INSERT INTO
+          article(article_id,article_title,article_content,article_time,article_link)
+        VALUES
+          (#{articleId},#{articleTitle},#{articleContent},#{articleTime},#{articleLink})
+    </insert>
+
+    <delete id="deleteArticles" parameterType="java.util.List">
+        DELETE FROM article WHERE article_id IN
+        <foreach collection="articleIds" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <delete id="deleteArticle" parameterType="String">
+        DELETE FROM article WHERE article_id = #{arg0}
+    </delete>
+
+    <update id="updateArticle" parameterType="article">
+        UPDATE article
+        <set>
+            <if test="articleTitle != null and articleTitle != ''">
+                article_title = #{articleTitle},
+            </if>
+            <if test="articleContent != null and articleContent != ''">
+                article_content = #{articleContent},
+            </if>
+            <if test="articleLink != null and articleLink != ''">
+                article_link = #{articleLink}
+            </if>
+        </set>
+        WHERE article_id = #{articleId}
+    </update>
+
+    <select id="findAllArticles" resultMap="article">
+        select article_id,article_title,article_Content,article_time,article_link,image_address
+          FROM image i
+            INNER JOIN article a
+              WHERE a.article_id = i.image_ref
+    </select>
+
+</mapper>

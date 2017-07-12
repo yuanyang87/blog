@@ -1,7 +1,7 @@
-package blog.geek.user.controller;
+package blog.geek.guest.controller;
 
 import blog.geek.entity.Product;
-import blog.geek.user.service.GuestProductService;
+import blog.geek.guest.service.GuestProductService;
 import blog.geek.utils.Result;
 import blog.geek.utils.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,9 +1,6 @@
 package blog.geek.test;
 
-import blog.geek.entity.Banner;
-import blog.geek.entity.Image;
-import blog.geek.user.service.GuestBannerService;
-import org.junit.Test;
+import blog.geek.guest.service.GuestBannerService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
