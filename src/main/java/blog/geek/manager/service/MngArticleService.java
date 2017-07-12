@@ -6,6 +6,7 @@ import blog.geek.entity.Article;
 import blog.geek.entity.Image;
 import blog.geek.exception.ErrorException;
 import blog.geek.utils.FileUtil;
+import blog.geek.utils.ListUtil;
 import blog.geek.utils.RandomStringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -98,21 +99,21 @@ public class MngArticleService {
         if (pictures == null || pictures.length == 0){//没有新传入的图片
             List<String> existPaths = article.getArticleImg();//没有被删除的图片地址
             List<String> allPaths = imageDao.getImagePath(article.getArticleId());  //该文章原有的全部的图片
-            deleteNotExistImage(getDiff(existPaths,allPaths),article);//删除已经不存在的图片数据
+            deleteNotExistImage(ListUtil.getDiff(existPaths,allPaths),article);//删除已经不存在的图片数据
             if (articleDao.updateArticle(article) != 1)//更新数据库
                 throw new ErrorException("更新随笔失败,请重新操作");
-            fileUtil.deleteImages(getDiff(existPaths,allPaths)); //删除已经被删除的图片
+            fileUtil.deleteImages(ListUtil.getDiff(existPaths,allPaths)); //删除已经被删除的图片
             return;
         }
         List<String> existPaths = article.getArticleImg();//没有被删除的图片地址
         List<String> allPaths = imageDao.getImagePath(article.getArticleId());  //该文章原有的全部的图片
         List<Image> images = transversePictureAndSave(pictures,article);//遍历图片并存储
-        deleteNotExistImage(getDiff(existPaths,allPaths),article); //删除已经不存在的图片数据
+        deleteNotExistImage(ListUtil.getDiff(existPaths,allPaths),article); //删除已经不存在的图片数据
         if (articleDao.updateArticle(article) != 1)//更新数据库
             deleteImage(images);
         if (imageDao.insertImages(images) != images.size())
             deleteImage(images);
-        fileUtil.deleteImages(getDiff(existPaths,allPaths)); //删除磁盘上已经被删除的图片
+        fileUtil.deleteImages(ListUtil.getDiff(existPaths,allPaths)); //删除磁盘上已经被删除的图片
     }
 
     /**
@@ -134,7 +135,7 @@ public class MngArticleService {
         for (Image image:images){
             fileUtil.deleteImage(image.getImageAddress());
         }
-        throw new ErrorException("添加随笔失败,请重新操作");
+        throw new ErrorException("操作失败,请重新操作");
     }
 
     /**
@@ -167,23 +168,6 @@ public class MngArticleService {
             images.add(image);
         }
         return images;
-    }
-
-    /**
-     * 快速找出两个 List 中的不同元素
-     * @param exist
-     * @param all
-     * @return
-     */
-    public List<String> getDiff(List<String> exist,List<String> all){
-        if (exist == null || exist.size() == 0) //如果小的集合没有数据,直接返回全部数据
-            return all;
-        List<String> diff = new ArrayList<String>(); //存放不同数据的List
-        for (String str : all){
-            if (!exist.contains(str))
-                diff.add(str);
-        }
-        return diff;
     }
 
 }

@@ -7,7 +7,7 @@
         <result column="course_name" javaType="String" jdbcType="VARCHAR" property="courseName"/>
         <result column="course_content" javaType="String" jdbcType="VARCHAR" property="courseContent"/>
         <result column="course_link" javaType="String" jdbcType="VARCHAR" property="courseLink"/>
-        <collection property="courseImg" ofType="String">
+        <collection property="courseImage" ofType="String">
             <result column="image_address"/>
         </collection>
     </resultMap>
@@ -44,7 +44,7 @@
         WHERE course_id = #{courseId}
     </update>
 
-    <select id="findAllCourses">
+    <select id="findAllCourses" resultMap="course">
         SELECT course_id,course_name,course_content,course_link,image_address
           FROM image i
             INNER JOIN course cou
