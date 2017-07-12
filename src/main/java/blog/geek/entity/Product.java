@@ -12,7 +12,7 @@ public class Product {
     private String productContent; //内容
     private String productPrice;    //产品价格
     private String productType; //产品类型
-    private String[] productImg; //产品图片
+    private String productImg; //产品图片
 
     //start getter and setter
     public String getProductId() {
@@ -55,11 +55,11 @@ public class Product {
         this.productType = productType;
     }
 
-    public String[] getProductImg() {
+    public String getProductImg() {
         return productImg;
     }
 
-    public void setProductImg(String[] productImg) {
+    public void setProductImg(String productImg) {
         this.productImg = productImg;
     }
 

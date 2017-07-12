@@ -25,11 +25,4 @@ public class ScheduleTest extends BaseActionTest{
 
     }
 
-    @Test
-    public void find(){
-        List<Schedule> schedules = mngScheduleService.findAllSchedule();
-        System.out.println(JsonUtil.toJson(schedules
-        ));
-    }
-
 }
