@@ -3,6 +3,7 @@ package blog.geek.manager.service;
 import blog.geek.dao.ImageDao;
 import blog.geek.dao.ProductDao;
 import blog.geek.entity.Image;
+import blog.geek.entity.Pager;
 import blog.geek.entity.Product;
 import blog.geek.exception.ErrorException;
 import blog.geek.utils.FileUtil;
@@ -19,7 +20,7 @@ import java.util.List;
  * @version 1.0
  */
 @Service
-public class MngProductService {
+public class ProductService {
 
     @Autowired
     private ProductDao productDao;
@@ -93,24 +94,38 @@ public class MngProductService {
     /**
      * 查找所有产品
      * @return
+     * @param pageIndex
+     * @param pageSize
      */
-    public List<Product> findAllProducts(){
-        List<Product> products = productDao.findAllProducts();
-        if (products == null)
+    public Pager<Product> findAllProducts(int pageIndex, int pageSize){
+        Pager<Product> productPager = new Pager<Product>(pageIndex,pageSize,productDao.getTotal());
+
+        List<Product> products = productDao.findAllProducts(productPager.getOffSet(),pageSize);
+
+        if (products == null || products.size() == 0)
             throw new ErrorException("没有找到你要的数据");
-        return products;
+
+        productPager.setResult(products);
+        return productPager;
     }
 
     /**
-     * 通过类别查找产品
+     *
      * @param productType
+     * @param pageIndex
+     * @param pageSize
      * @return
      */
-    public List<Product> findProductByType(String productType){
-        List<Product> products = productDao.findProductByType(productType);
-        if (products == null)
+    public Pager<Product> findProductByType(String productType, int pageIndex, int pageSize){
+        Pager<Product> productPager = new Pager<Product>(pageIndex,pageSize,productDao.getTotal());
+
+        List<Product> products = productDao.findProductByType(productType,productPager.getOffSet(),pageSize);
+        if (products == null || products.size() == 0)
             throw new ErrorException("没有找到你要的数据");
-        return products;
+
+        productPager.setResult(products);
+
+        return productPager;
     }
 
 }

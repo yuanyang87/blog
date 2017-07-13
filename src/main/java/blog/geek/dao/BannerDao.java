@@ -17,13 +17,11 @@ import java.util.List;
 public interface BannerDao {
 
     /**
-     * 添加一张轮播图
-     * 同时在banner表与image表里面添加
+     * 插入一张轮播图
      * @param banner
+     * @param image
      * @return
      */
-    int insertBanner(Banner banner);
-
     int insertBannerImage(@Param("banner") Banner banner,@Param("image") Image image);
 
     /**
@@ -52,5 +50,11 @@ public interface BannerDao {
      * 后台获取所有的轮播图
      * @return
      */
-    List<Banner> findAllBanners();
+    List<Banner> findAllBanners(int offSet,int limit);
+
+    /**
+     * 获取总数目
+     * @return
+     */
+    int getTotal();
 }

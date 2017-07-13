@@ -42,13 +42,18 @@ public interface ProductDao {
      * 查找产品
      * @return
      */
-    List<Product> findAllProducts();
+    List<Product> findAllProducts(int offSet,int limit);
 
     /**
      * 通过类型查找产品
      * @param productType
      * @return
      */
-    List<Product> findProductByType(String productType);
+    List<Product> findProductByType(String productType,int offSet,int limit);
 
+    /**
+     * 获取总条数
+     * @return
+     */
+    int getTotal();
 }

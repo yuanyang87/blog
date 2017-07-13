@@ -14,7 +14,7 @@ import java.util.List;
  * @version 1.0
  */
 @Service
-public class MngScheduleService {
+public class ScheduleService {
 
     @Autowired
     private ScheduleDao scheduleDao;

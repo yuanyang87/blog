@@ -1,7 +1,8 @@
 package blog.geek.manager.controller;
 
 import blog.geek.entity.Article;
-import blog.geek.manager.service.MngArticleService;
+import blog.geek.entity.Pager;
+import blog.geek.manager.service.ArticleService;
 import blog.geek.utils.JsonUtil;
 import blog.geek.utils.Result;
 import blog.geek.utils.ResultUtil;
@@ -22,39 +23,39 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/management")
-public class MngArticleAction {
+public class ArticleAction {
 
     @Autowired
-    private MngArticleService mngArticleService;
+    private ArticleService articleService;
 
     @RequestMapping(value = "/insertArticle",method = RequestMethod.POST)
-    public Result insertArticle(Article article, MultipartFile[] pictures){
-        mngArticleService.insertArticle(article,pictures);
+    public Result insertArticle(Article article){
+        articleService.insertArticle(article);
         return ResultUtil.successResult(null);
     }
 
     @RequestMapping(value = "/deleteArticle/{articleId}",method = RequestMethod.DELETE)
     public Result deleteArticle(@PathVariable String articleId){
-        mngArticleService.deleteArticle(articleId);
+        articleService.deleteArticle(articleId);
         return ResultUtil.successResult(null);
     }
 
     @RequestMapping(value = "/deleteArticles/{articleIdJson}",method = RequestMethod.DELETE)
     public Result deleteArticles(@PathVariable String articleIdJson){
-        mngArticleService.deleteArticles((List<String>) JsonUtil.toPOJO(articleIdJson,new ArrayList<String>().getClass()));
+        articleService.deleteArticles((List<String>) JsonUtil.toPOJO(articleIdJson,new ArrayList<String>().getClass()));
         return ResultUtil.successResult(null);
     }
 
     @RequestMapping(value = "/updateArticle",method = RequestMethod.POST)
-    public Result updateArticle(Article article,MultipartFile[] pictures){
-        mngArticleService.updateArticle(article,pictures);
+    public Result updateArticle(Article article){
+        articleService.updateArticle(article);
         return ResultUtil.successResult(null);
     }
 
     @RequestMapping(value = "/findAllArticles",method = RequestMethod.GET)
-    public Result findAllArticles(){
-        List<Article> articles = mngArticleService.findAllArticles();
-        return ResultUtil.successResult(articles);
+    public Result findAllArticles(int pageIndex, int pageSize){
+        Pager<Article> articlePager = articleService.findAllArticles(pageIndex,pageSize);
+        return ResultUtil.successResult(articlePager);
     }
 
 }

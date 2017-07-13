@@ -1,7 +1,8 @@
 package blog.geek.manager.controller;
 
 import blog.geek.entity.Contact;
-import blog.geek.manager.service.MngContactService;
+import blog.geek.entity.Pager;
+import blog.geek.manager.service.ContactService;
 import blog.geek.utils.JsonUtil;
 import blog.geek.utils.Result;
 import blog.geek.utils.ResultUtil;
@@ -20,33 +21,38 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/management")
-public class MngContactAction {
+public class ContactAction {
 
     @Autowired
-    private MngContactService mngContactService;
+    private ContactService contactService;
 
     @RequestMapping(value = "/deleteContact/{contactId}",method = RequestMethod.DELETE)
     public Result deleteContact(@PathVariable String contactId) {
-        mngContactService.deleteContact(contactId);
+        contactService.deleteContact(contactId);
         return ResultUtil.successResult(null);
     }
 
     @RequestMapping(value = "/deleteContacts/{jsonString}")
     public Result deleteContacts(@PathVariable String jsonString){
-        mngContactService.deleteContacts((String[]) JsonUtil.toPOJO(jsonString,String[].class));
+        contactService.deleteContacts((String[]) JsonUtil.toPOJO(jsonString,String[].class));
         return ResultUtil.successResult(null);
     }
 
     @RequestMapping(value = "/deleteAllContacts",method = RequestMethod.DELETE)
     public Result deleteAllContacts(){
-        mngContactService.deleteAllContacts();
+        contactService.deleteAllContacts();
         return ResultUtil.successResult(null);
     }
 
     @RequestMapping(value = "/findAllContacts",method = RequestMethod.GET)
-    public Result findAllContacts(){
-        List<Contact> contacts = mngContactService.findAllContacts();
-        return ResultUtil.successResult(contacts);
+    public Result findAllContacts(int pageIndex,int pageSize){
+        Pager<Contact> contactPager = contactService.findAllContacts(pageIndex,pageSize);
+        return ResultUtil.successResult(contactPager);
     }
 
+    @RequestMapping(value = "/addContact",method = RequestMethod.POST)
+    public Result insertContact(Contact contact){
+        contactService.insertContact(contact);
+        return ResultUtil.successResult(null);
+    }
 }

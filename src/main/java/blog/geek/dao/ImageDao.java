@@ -18,11 +18,11 @@ import java.util.List;
 public interface ImageDao {
 
     /**
-     * 批量添加图片
-     * @param images
+     * 插入一张图片
+     * @param image
      * @return
      */
-    int insertImages(@Param("images") List<Image> images);
+    int insertImage(Image image);
 
     /**
      * 通过图片路径批量删除图片,图片路径唯一
@@ -47,18 +47,11 @@ public interface ImageDao {
     List<String> getImagePath(String key);
 
     /**
-     * 计算与之关联的对象所拥有的图片数量
-     * @param key
-     * @return
-     */
-    int countImages(String key);
-
-    /**
      * 获取下列随笔的所有图片
      * @param articleIds
      * @return
      */
     List<String> getImagePaths(@Param("articleIds") List<String> articleIds);
 
-    int insertImage(Image image);
+
 }

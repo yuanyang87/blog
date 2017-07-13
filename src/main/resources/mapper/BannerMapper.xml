@@ -49,10 +49,11 @@
         </if>
     </update>
 
-    <select id="findAllBanners" resultMap="banner">
+    <select id="findAllBanners" resultMap="banner" parameterType="_integer">
         SELECT banner_id,banner_type,image_address
           FROM banner,image
             WHERE banner.banner_id = image.image_ref
+            LIMIT #{arg0},#{arg1}
     </select>
 
     <select id="findBannerByType" parameterType="String" resultMap="bannerDTO">
@@ -60,5 +61,9 @@
           FROM image i
             INNER JOIN banner b
               WHERE b.banner_id = i.image_ref
+    </select>
+
+    <select id="getTotal" resultType="_integer">
+        SELECT count(banner_id) FROM banner;
     </select>
 </mapper>

@@ -2,8 +2,10 @@ package blog.geek.manager.service;
 
 import blog.geek.dao.BannerDao;
 import blog.geek.dao.ImageDao;
+import blog.geek.dto.BannerDTO;
 import blog.geek.entity.Banner;
 import blog.geek.entity.Image;
+import blog.geek.entity.Pager;
 import blog.geek.exception.ErrorException;
 import blog.geek.utils.FileUtil;
 import blog.geek.utils.RandomStringUtil;
@@ -19,14 +21,12 @@ import java.util.List;
  * @version 1.0
  */
 @Service
-public class MngBannerService {
+public class BannerService {
 
     @Autowired
     private BannerDao bannerDao;
-
     @Autowired
     private ImageDao imageDao;
-
     @Autowired
     private FileUtil fileUtil;
 
@@ -99,9 +99,25 @@ public class MngBannerService {
     /**
      * 获取所有的轮播图片
      * @return
+     * @param pageIndex
+     * @param pageSize
      */
-    public List<Banner> findAllBanners(){
-        List<Banner> banners = bannerDao.findAllBanners();
-        return banners;
+    public Pager<Banner> findAllBanners(int pageIndex, int pageSize){
+        Pager<Banner> bannerPager = new Pager<Banner>(pageIndex,pageSize,bannerDao.getTotal());    //轮播分页
+
+        List<Banner> banners = bannerDao.findAllBanners(bannerPager.getOffSet(),pageSize);   //查找结果并返回
+
+        bannerPager.setResult(banners);
+        return bannerPager;
+    }
+
+    /**
+     * 前端根据不同的类型获取轮播图片
+     * @param bannerType
+     * @return
+     */
+    public BannerDTO findBannerByType(String bannerType){
+        BannerDTO bannerDTO = bannerDao.findBannerByType(bannerType);
+        return bannerDTO;
     }
 }

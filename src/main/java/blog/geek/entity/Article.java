@@ -14,7 +14,6 @@ public class Article {
     private String articleTime; //随笔发送时间
     private String articleContent;  //随笔内容
     private String articleLink; //视频链接
-    private List<String> articleImg;    //随笔图片
 
     //start getter and setter
     public String getArticleId() {
@@ -55,14 +54,6 @@ public class Article {
 
     public void setArticleLink(String articleLink) {
         this.articleLink = articleLink;
-    }
-
-    public List<String> getArticleImg() {
-        return articleImg;
-    }
-
-    public void setArticleImg(List<String> articleImg) {
-        this.articleImg = articleImg;
     }
 
     //end getter and setter

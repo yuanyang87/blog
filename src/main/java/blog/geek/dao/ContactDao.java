@@ -44,27 +44,11 @@ public interface ContactDao {
      * 查找所有联系记录
      * @return
      */
-    List<Contact> findAllContacts();
+    List<Contact> findAllContacts(int offSet,int limit);
 
     /**
-     * 按电话查找
-     * @param contactPhone
+     * 获取总条数
      * @return
      */
-    List<Contact> findContactByPhone(String contactPhone);
-
-    /**
-     * 按姓名查找
-     * @param contactName
-     * @return
-     */
-    List<Contact> findContactByName(String contactName);
-
-    /**
-     * 按内容关键字查找
-     * @param keyWord
-     * @return
-     */
-    List<Contact> findContactByContent(String keyWord);
-
+    int getTotal();
 }

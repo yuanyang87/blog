@@ -61,10 +61,11 @@
         </if>
     </update>
 
-    <select id="findAllProducts" resultMap="product">
+    <select id="findAllProducts" resultMap="product" parameterType="_integer">
         SELECT product_id,product_name,product_type,product_content,product_price,image_address
           FROM product,image
             WHERE image.image_ref = product.product_id
+            LIMIT #{arg0},#{arg1}
     </select>
 
     <select id="findProductByType" resultMap="product" parameterType="String">
@@ -72,5 +73,9 @@
           FROM product,image
             WHERE image.image_ref = product.product_id
               AND product_type = #{arg0}
+    </select>
+
+    <select id="getTotal" resultType="_integer">
+        SELECT COUNT(product_id) FROM product
     </select>
 </mapper>

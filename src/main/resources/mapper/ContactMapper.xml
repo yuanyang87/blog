@@ -39,5 +39,10 @@
         SELECT
           <include refid="columns"/>
             FROM contact
+            LIMIT #{arg0},#{arg1}
+    </select>
+
+    <select id="getTotal" resultType="_integer">
+        select COUNT(contact_id) from contact;
     </select>
 </mapper>

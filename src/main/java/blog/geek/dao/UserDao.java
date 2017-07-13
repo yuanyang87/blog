@@ -8,24 +8,10 @@ import java.util.List;
 /**
  * 用户模块Dao
  * @author yuanyang
- * @version 1.0
+ * @version 1.1
  */
 @Repository
 public interface UserDao {
-
-    /**
-     * 添加一名用户
-     * @param user
-     * @return
-     */
-    int insertUser(User user);
-
-    /**
-     * 删除一名用户
-     * @param userName
-     * @return
-     */
-    int deleteUser(String userName);
 
     /**
      * 根据userName修改用户密码或真实姓名
@@ -33,12 +19,6 @@ public interface UserDao {
      * @return
      */
     int updateUser(User user);
-
-    /**
-     * 查询所有用户
-     * @return
-     */
-    List<User> findAllUsers();
 
     /**
      * 获取用户的密码

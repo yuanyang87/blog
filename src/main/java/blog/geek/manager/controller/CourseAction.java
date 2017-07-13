@@ -1,7 +1,7 @@
 package blog.geek.manager.controller;
 
 import blog.geek.entity.Course;
-import blog.geek.manager.service.MngCourseService;
+import blog.geek.manager.service.CourseService;
 import blog.geek.utils.JsonUtil;
 import blog.geek.utils.Result;
 import blog.geek.utils.ResultUtil;
@@ -22,38 +22,38 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/management")
-public class MngCourseAction {
+public class CourseAction {
 
     @Autowired
-    private MngCourseService mngCourseService;
+    private CourseService courseService;
 
     @RequestMapping(value = "/insertCourse",method = RequestMethod.POST)
     public Result insertCourse(Course course, MultipartFile[] pictures){
-        mngCourseService.insertCourse(course,pictures);
+        courseService.insertCourse(course,pictures);
         return ResultUtil.successResult(null);
     }
 
     @RequestMapping(value = "/deleteCourse/{courseId}",method = RequestMethod.DELETE)
     public Result deleteCourse(@PathVariable String courseId){
-        mngCourseService.deleteCourse(courseId);
+        courseService.deleteCourse(courseId);
         return ResultUtil.successResult(null);
     }
 
     @RequestMapping(value = "/deleteCourses/{courseIdsJson}",method = RequestMethod.DELETE)
     public Result deleteCourses(@PathVariable String courseIdsJson){
-        mngCourseService.deleteCourses((List<String>) JsonUtil.toPOJO(courseIdsJson,new ArrayList<String>().getClass()));
+        courseService.deleteCourses((List<String>) JsonUtil.toPOJO(courseIdsJson,new ArrayList<String>().getClass()));
         return ResultUtil.successResult(null);
     }
 
     @RequestMapping(value = "/updateCourse",method = RequestMethod.POST)
     public Result updateCourse(Course course,MultipartFile[] pictures){
-        mngCourseService.updateCourse(course,pictures);
+        courseService.updateCourse(course,pictures);
         return ResultUtil.successResult(null);
     }
 
     @RequestMapping(value = "/findAllCourses",method = RequestMethod.GET)
-    public Result findAllCourses(){
-        List<Course> courses = mngCourseService.findAllCourses();
+    public Result findAllCourses(int pageIndex,int pageSize){
+        List<Course> courses = courseService.findAllCourses(pageIndex,pageSize);
         return ResultUtil.successResult(courses);
     }
 

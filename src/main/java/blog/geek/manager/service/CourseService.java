@@ -4,9 +4,9 @@ import blog.geek.dao.CourseDao;
 import blog.geek.dao.ImageDao;
 import blog.geek.entity.Course;
 import blog.geek.entity.Image;
+import blog.geek.entity.Pager;
 import blog.geek.exception.ErrorException;
 import blog.geek.utils.FileUtil;
-import blog.geek.utils.ListUtil;
 import blog.geek.utils.RandomStringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,33 +21,23 @@ import java.util.List;
  * @version 1.0
  */
 @Service
-public class MngCourseService {
+public class CourseService {
 
     @Autowired
     private CourseDao courseDao;
-
     @Autowired
     private ImageDao imageDao;
-
     @Autowired
     private FileUtil fileUtil;
 
     /**
      * 插入课程
      * @param course
-     * @param pictures
      */
-    public void insertCourse(Course course, MultipartFile[] pictures){
-        if (pictures == null || pictures.length == 0){//没有图片,直接存放课程
-            course.setCourseId(RandomStringUtil.unrepeatableString(8));
-            courseDao.insertCourse(course);
-        }//有图片
+    public void insertCourse(Course course){
         course.setCourseId(RandomStringUtil.unrepeatableString(8));
-        List<Image> images = transversePictureAndSave(pictures,course);//遍历图片并存储;
         if (courseDao.insertCourse(course) != 1)
-            deleteImage(images);
-        if (imageDao.insertImages(images) != images.size())
-            deleteImage(images);
+            throw new ErrorException("添加失败,请重新操作");
     }
 
     /**
@@ -83,32 +73,22 @@ public class MngCourseService {
     /**
      * 更新课程
      * @param course
-     * @param pictures
      */
-    public void updateCourse(Course course,MultipartFile[] pictures){
-        if (pictures == null || pictures.length == 0){//没有新传入的图片
-            List<String> existPaths = course.getCourseImage();//没有被删除的图片地址
-            List<String> allPaths = imageDao.getImagePath(course.getCourseId());  //原有的全部的图片
-            deleteNotExistImage(ListUtil.getDiff(existPaths,allPaths),course);//删除已经不存在的图片数据
-            if (courseDao.updateCourse(course) != 1)//更新数据库
-                throw new ErrorException("更新随笔失败,请重新操作");
-            fileUtil.deleteImages(ListUtil.getDiff(existPaths,allPaths)); //删除已经被删除的图片
-            return;
-        }
-        List<String> existPaths = course.getCourseImage();//没有被删除的图片地址
+    public void updateCourse(Course course){
         List<String> allPaths = imageDao.getImagePath(course.getCourseId());  //该文章原有的全部的图片
-        List<Image> images = transversePictureAndSave(pictures,course);//遍历图片并存储
-        deleteNotExistImage(ListUtil.getDiff(existPaths,allPaths),course); //删除已经不存在的图片数据
         if (courseDao.updateCourse(course) != 1)//更新数据库
-            deleteImage(images);
-        if (imageDao.insertImages(images) != images.size())
-            deleteImage(images);
-        fileUtil.deleteImages(ListUtil.getDiff(existPaths,allPaths)); //删除磁盘上已经被删除的图片
+         throw new ErrorException("更新失败,请重新操作");
     }
 
-    public List<Course> findAllCourses(){
-        List<Course> courses = courseDao.findAllCourses();
-        return courses;
+    public Pager<Course> findAllCourses(int pageIndex, int pageSize){
+        Pager<Course> coursePager = new Pager<Course>(pageIndex,pageSize,courseDao.getTotal());
+
+        List<Course> courses = courseDao.findAllCourses(coursePager.getOffSet(),pageSize);
+        if (courses == null || courses.size() == 0)
+            throw new ErrorException("没有找到你要的数据");
+
+        coursePager.setResult(courses);
+        return coursePager;
     }
 
     /**
@@ -129,18 +109,6 @@ public class MngCourseService {
             images.add(image);
         }
         return images;
-    }
-
-    /**
-     * 删除已经不在的图片
-     * @param notExistPaths
-     * @param course
-     */
-    private void deleteNotExistImage(List<String> notExistPaths, Course course) {
-        if (notExistPaths == null || notExistPaths.size() == 0) //当文章本来没有图,则这个值会为空
-            return;
-        if(imageDao.deleteImagesNotInList(notExistPaths,course.getCourseId()) != notExistPaths.size())
-            throw new ErrorException("操作失败,请重新操作");
     }
 
     /**

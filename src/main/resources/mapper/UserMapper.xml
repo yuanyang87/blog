@@ -2,25 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="blog.geek.dao.UserDao">
-    <resultMap id="user" type="blog.geek.entity.User">
-        <id column="user_name" javaType="String" jdbcType="VARCHAR" property="userName"/>
-        <result column="password" javaType="String" jdbcType="VARCHAR" property="password"/>
-        <result column="real_name" javaType="String" jdbcType="VARCHAR" property="realName"/>
-    </resultMap>
-
-    <sql id="columns">
-        user_name,password,real_name
-    </sql>
-
-    <insert id="insertUser" parameterType="user">
-        INSERT INTO user
-          (<include refid="columns"/>)
-            VALUES (#{userName},#{password},#{realName})
-    </insert>
-
-    <delete id="deleteUser" parameterType="String">
-        DELETE FROM user WHERE user_name = #{arg0}
-    </delete>
 
     <update id="updateUser" parameterType="user">
         UPDATE user
@@ -35,12 +16,6 @@
         WHERE
         user_name = #{userName}
     </update>
-
-    <select id="findAllUsers" resultMap="user">
-        SELECT
-          <include refid="columns"/>
-        FROM user
-    </select>
 
     <select id="findPassword" resultType="String">
         SELECT password FROM user WHERE user_name = #{arg0}

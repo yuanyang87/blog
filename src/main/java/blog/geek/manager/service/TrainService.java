@@ -3,16 +3,14 @@ package blog.geek.manager.service;
 import blog.geek.dao.ImageDao;
 import blog.geek.dao.TrainDao;
 import blog.geek.entity.Image;
+import blog.geek.entity.Pager;
 import blog.geek.entity.Train;
 import blog.geek.exception.ErrorException;
 import blog.geek.utils.FileUtil;
-import blog.geek.utils.ListUtil;
 import blog.geek.utils.RandomStringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,34 +19,24 @@ import java.util.List;
  * @version 1.0
  */
 @Service
-public class MngTrainService {
+public class TrainService {
 
     @Autowired
     private TrainDao trainDao;
-
     @Autowired
     private FileUtil fileUtil;
-
     @Autowired
     private ImageDao imageDao;
 
     /**
      * 插入训练
      * @param train
-     * @param pictures
      */
-    public void insertTrain(Train train, MultipartFile[] pictures){
-        if (pictures == null || pictures.length == 0){//没有图片
-            train.setTrainId(RandomStringUtil.unrepeatableString(8)); //设置编号
-            trainDao.insertTrain(train);//插入数据
-            return;
-        }//有图片
+    public void insertTrain(Train train){
         train.setTrainId(RandomStringUtil.unrepeatableString(8));//设置编号
-        List<Image> images = transversePictureAndSave(pictures,train);//遍历图片并存储
+
         if (trainDao.insertTrain(train) != 1)//存放数据
-            deleteImage(images);
-        if (imageDao.insertImages(images) != images.size())//存放相关图片数据
-            deleteImage(images);
+            throw new ErrorException("添加失败,请重新操作");
     }
 
     /**
@@ -86,36 +74,32 @@ public class MngTrainService {
     /**
      * 更新训练
      * @param train
-     * @param pictures
      */
-    public void updateTrain(Train train,MultipartFile[] pictures){
-        if (pictures == null || pictures.length == 0){//没有新传入的图片
-            List<String> existPaths = train.getTrainImg();//没有被删除的图片地址
-            List<String> allPaths = imageDao.getImagePath(train.getTrainId());  //该文章原有的全部的图片
-            deleteNotExistImage(ListUtil.getDiff(existPaths,allPaths),train);//删除已经不存在的图片数据
-            if (trainDao.updateTrain(train) != 1)//更新数据库
-                throw new ErrorException("更新随笔失败,请重新操作");
-            fileUtil.deleteImages(ListUtil.getDiff(existPaths,allPaths)); //删除已经被删除的图片
-            return;
-        }
-        List<String> existPaths = train.getTrainImg();//没有被删除的图片地址
+    public void updateTrain(Train train){
         List<String> allPaths = imageDao.getImagePath(train.getTrainId());  //该文章原有的全部的图片
-        List<Image> images = transversePictureAndSave(pictures,train);//遍历图片并存储
-        deleteNotExistImage(ListUtil.getDiff(existPaths,allPaths),train); //删除已经不存在的图片数据
+
         if (trainDao.updateTrain(train) != 1)//更新数据库
-            deleteImage(images);
-        if (imageDao.insertImages(images) != images.size())
-            deleteImage(images);
-        fileUtil.deleteImages(ListUtil.getDiff(existPaths,allPaths)); //删除磁盘上已经被删除的图片
+            throw new ErrorException("更新失败,请重新操作");
+
     }
 
     /**
-     * 获取全部训练
+     * 获取训练
+     * @param pageIndex
+     * @param pageSize
      * @return
      */
-    public List<Train> findAllTrains(){
-        List<Train> trains = trainDao.findAllTrains();
-        return trains;
+    public Pager<Train> findAllTrains(int pageIndex, int pageSize){
+        Pager<Train> trainPager = new Pager<Train>(pageIndex,pageSize,trainDao.getTotal());
+
+        List<Train> trains = trainDao.findAllTrains(trainPager.getOffSet(),pageSize);
+
+        if (trains == null || trains.size() == 0)
+            throw new ErrorException("没有找到你要的数据");
+
+        trainPager.setResult(trains);
+
+        return trainPager;
     }
 
     /**
@@ -131,26 +115,6 @@ public class MngTrainService {
     }
 
     /**
-     * 遍历图片
-     * @param pictures
-     * @param train
-     * @return
-     */
-    private List<Image> transversePictureAndSave(MultipartFile[] pictures, Train train) {
-        List<Image> images = new ArrayList<Image>();
-        for (MultipartFile file : pictures){
-            Image image = new Image(RandomStringUtil.unrepeatableString(8),
-                    file.getOriginalFilename(),train.getTrainId());
-            if (!fileUtil.saveImage(file,train.getClass().getSimpleName(),train.getTrainId())){
-                deleteImage(images);
-            }
-            image.setImageAddress(fileUtil.getVirtualPath());
-            images.add(image);
-        }
-        return images;
-    }
-
-    /**
      * 删除没有了的图片
      * @param images
      */
@@ -160,4 +124,6 @@ public class MngTrainService {
         }
         throw new ErrorException("操作失败,请重新操作");
     }
+
+
 }

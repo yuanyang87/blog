@@ -13,7 +13,6 @@ public class Course {
     private String courseName;  //名称
     private String courseContent; //课程内容
     private String courseLink;  //视频链接
-    private List<String> courseImage; //图片链接
 
     //start getter and setter
     public String getCourseId() {
@@ -46,14 +45,6 @@ public class Course {
 
     public void setCourseLink(String courseLink) {
         this.courseLink = courseLink;
-    }
-
-    public List<String> getCourseImage() {
-        return courseImage;
-    }
-
-    public void setCourseImage(List<String> courseImage) {
-        this.courseImage = courseImage;
     }
     //end getter and setter
 }

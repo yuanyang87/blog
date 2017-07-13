@@ -1,6 +1,6 @@
-package blog.geek.guest.controller;
+package blog.geek.manager.controller;
 
-import blog.geek.guest.service.SearchService;
+import blog.geek.manager.service.SearchService;
 import blog.geek.utils.Result;
 import blog.geek.utils.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +20,9 @@ public class SearchAction {
     @Autowired
     private SearchService searchService;
 
-    @RequestMapping(value = "/search/{key}",method = RequestMethod.GET)
-    public Result searchByKeyWord(@PathVariable String key){
-        List<Object> objects = searchService.searchAll("%" + key + "%");
+    @RequestMapping(value = "/search/type/{key}",method = RequestMethod.GET)
+    public Result searchByKeyWord(@PathVariable String type,@PathVariable String key,int pageIndex,int pageSize){
+        List<Object> objects = searchService.searchAll(type,"%" + key + "%",pageIndex,pageSize);
         return ResultUtil.successResult(objects);
     }
 

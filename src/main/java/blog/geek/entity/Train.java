@@ -14,7 +14,6 @@ public class Train {
     private String trainTime;
     private String trainContent;
     private String trainLink;
-    private List<String> trainImg;
 
     //start getter and setter
     public String getTrainId() {
@@ -55,14 +54,6 @@ public class Train {
 
     public void setTrainLink(String trainLink) {
         this.trainLink = trainLink;
-    }
-
-    public List<String> getTrainImg() {
-        return trainImg;
-    }
-
-    public void setTrainImg(List<String> trainImg) {
-        this.trainImg = trainImg;
     }
 
     //end getter and setter

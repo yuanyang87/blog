@@ -1,7 +1,8 @@
 package blog.geek.manager.controller;
 
+import blog.geek.entity.Pager;
 import blog.geek.entity.Train;
-import blog.geek.manager.service.MngTrainService;
+import blog.geek.manager.service.TrainService;
 import blog.geek.utils.JsonUtil;
 import blog.geek.utils.Result;
 import blog.geek.utils.ResultUtil;
@@ -22,39 +23,39 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/management")
-public class MngTrainAction {
+public class TrainAction {
 
     @Autowired
-    private MngTrainService mngTrainService;
+    private TrainService trainService;
 
     @RequestMapping(value = "/insertTrain",method = RequestMethod.POST)
-    public Result insertTrain(Train train, MultipartFile[] pictures){
-        mngTrainService.insertTrain(train,pictures);
+    public Result insertTrain(Train train){
+        trainService.insertTrain(train);
         return ResultUtil.successResult(null);
     }
 
     @RequestMapping(value = "/deleteTrain/{trainId}",method = RequestMethod.DELETE)
     public Result deleteTrain(@PathVariable String trainId){
-        mngTrainService.deleteTrain(trainId);
+        trainService.deleteTrain(trainId);
         return ResultUtil.successResult(null);
     }
 
     @RequestMapping(value = "/deleteTrains/{trainIdsJson}",method = RequestMethod.DELETE)
     public Result deleteTrains(@PathVariable String trainIdsJson){
-        mngTrainService.deleteTrains((List<String>) JsonUtil.toPOJO(trainIdsJson,new ArrayList<String>().getClass()));
+        trainService.deleteTrains((List<String>) JsonUtil.toPOJO(trainIdsJson,new ArrayList<String>().getClass()));
         return ResultUtil.successResult(null);
     }
 
     @RequestMapping(value = "/updateTrain",method =RequestMethod.POST)
-    public Result updateTrain(Train train,MultipartFile[] pictures){
-        mngTrainService.updateTrain(train,pictures);
+    public Result updateTrain(Train train){
+        trainService.updateTrain(train);
         return ResultUtil.successResult(null);
     }
 
     @RequestMapping(value = "/findAllTrains",method = RequestMethod.GET)
-    public Result findAllTrains(){
-        List<Train> trains = mngTrainService.findAllTrains();
-        return ResultUtil.successResult(trains);
+    public Result findAllTrains(int pageIndex,int pageSize){
+        Pager<Train> trainPager = trainService.findAllTrains(pageIndex,pageSize);
+        return ResultUtil.successResult(trainPager);
     }
 
 }

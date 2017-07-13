@@ -22,7 +22,9 @@ public interface ArticleDao {
 
     int updateArticle(Article article);
 
-    List<Article> findAllArticles();
+    List<Article> findAllArticles(int offSet,int limit);
 
-    List<Article> findArticlesByKeyWord(String key);
+    List<Article> findArticlesByKeyWord(String key,int offSet,int limit);
+
+    int getTotal();
 }

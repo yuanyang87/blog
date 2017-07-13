@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * 管理用户登录模块
  * @author yuanyang
- * @version 1.0
+ * @version 1.1
  */
 @Service
 public class UserService {
@@ -36,29 +36,6 @@ public class UserService {
     }
 
     /**
-     * 添加用户
-     * @param user
-     * @throws UnsupportedEncodingException
-     * @throws NoSuchAlgorithmException
-     */
-    public void insertUser(User user) throws UnsupportedEncodingException, NoSuchAlgorithmException {
-        user.setPassword(EncryptUtil.MD5(user.getPassword()));
-        if (userDao.insertUser(user) != 1){
-            throw new ErrorException("添加用户失败,请稍后重试!");
-        }
-    }
-
-    /**
-     * 删除用户
-     * @param userName
-     */
-    public void deleteUser(String userName){
-        if (userDao.deleteUser(userName) != 1){
-            throw new ErrorException("删除用户失败,请稍后重试!");
-        }
-    }
-
-    /**
      * 更新用户
      * @param user
      * @throws UnsupportedEncodingException
@@ -69,14 +46,6 @@ public class UserService {
         if (userDao.updateUser(user) != 1){
             throw new ErrorException("更新用户失败");
         }
-    }
-
-    /**
-     * 查找所有用户
-     */
-    public List<User> findAllUsers(){
-        List<User> users = userDao.findAllUsers();
-        return users;
     }
 
 }

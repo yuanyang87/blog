@@ -1,7 +1,6 @@
 package blog.geek.test;
 
-import blog.geek.manager.service.MngScheduleService;
-import blog.geek.guest.service.GuestScheduleService;
+import blog.geek.manager.service.ScheduleService;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -11,10 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class ScheduleTest extends BaseActionTest{
 
     @Autowired
-    private MngScheduleService mngScheduleService;
-
-    @Autowired
-    private GuestScheduleService guestScheduleService;
+    private ScheduleService scheduleService;
 
     @Test
     public void insert(){

@@ -1,7 +1,7 @@
 package blog.geek.manager.controller;
 
 import blog.geek.entity.Schedule;
-import blog.geek.manager.service.MngScheduleService;
+import blog.geek.manager.service.ScheduleService;
 import blog.geek.utils.JsonUtil;
 import blog.geek.utils.Result;
 import blog.geek.utils.ResultUtil;
@@ -22,10 +22,10 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/management")
-public class MngScheduleAction {
+public class ScheduleAction {
 
     @Autowired
-    private MngScheduleService mngScheduleService;
+    private ScheduleService scheduleService;
 
     /**
      * 传入JSON字符串,解析成List<Schedule>对象进行添加
@@ -34,7 +34,7 @@ public class MngScheduleAction {
      */
     @RequestMapping(value = "/insertSchedules",method = RequestMethod.POST)
     public Result insertSchedules(String scheduleJson){
-        mngScheduleService.insertSchedules(JsonUtil.toList(scheduleJson, new TypeReference<List<Schedule>>(){}));
+        scheduleService.insertSchedules(JsonUtil.toList(scheduleJson, new TypeReference<List<Schedule>>(){}));
         return ResultUtil.successResult(null);
     }
 
@@ -45,7 +45,7 @@ public class MngScheduleAction {
      */
     @RequestMapping(value = "/insertSchedule",method = RequestMethod.POST)
     public Result insertSchedule(Schedule schedule){
-        mngScheduleService.insertSchedule(schedule);
+        scheduleService.insertSchedule(schedule);
         return ResultUtil.successResult(null);
     }
 
@@ -56,7 +56,7 @@ public class MngScheduleAction {
      */
     @RequestMapping(value = "/deleteSchedules/{scheduleIdJson}",method = RequestMethod.DELETE)
     public Result deleteSchedules(@PathVariable String scheduleIdJson){
-        mngScheduleService.deleteSchedules((List<String>) JsonUtil.toPOJO(scheduleIdJson,new ArrayList<String>().getClass()));
+        scheduleService.deleteSchedules((List<String>) JsonUtil.toPOJO(scheduleIdJson,new ArrayList<String>().getClass()));
         return ResultUtil.successResult(null);
     }
 
@@ -67,7 +67,7 @@ public class MngScheduleAction {
      */
     @RequestMapping("/deleteSchedule/{scheduleId}")
     public Result deleteSchedule(@PathVariable String scheduleId){
-        mngScheduleService.deleteSchedule(scheduleId);
+        scheduleService.deleteSchedule(scheduleId);
         return ResultUtil.successResult(null);
     }
 
@@ -78,7 +78,7 @@ public class MngScheduleAction {
      */
     @RequestMapping(value = "/updateSchedules",method = RequestMethod.POST)
     public Result updateSchedules(String scheduleJson){
-        mngScheduleService.updateSchedules(JsonUtil.toList(scheduleJson, new TypeReference<List<Schedule>>(){}));
+        scheduleService.updateSchedules(JsonUtil.toList(scheduleJson, new TypeReference<List<Schedule>>(){}));
         return ResultUtil.successResult(null);
     }
 
@@ -89,7 +89,7 @@ public class MngScheduleAction {
      */
     @RequestMapping(value = "/updateSchedule",method = RequestMethod.POST)
     public Result updateSchedule(Schedule schedule){
-        mngScheduleService.updateSchedule(schedule);
+        scheduleService.updateSchedule(schedule);
         return ResultUtil.successResult(null);
     }
 
@@ -99,7 +99,7 @@ public class MngScheduleAction {
      */
     @RequestMapping(value = "/findAllSchedule",method = RequestMethod.GET)
     public Result findAllSchedule(){
-        List<Schedule> schedules = mngScheduleService.findAllSchedules();
+        List<Schedule> schedules = scheduleService.findAllSchedules();
         return ResultUtil.successResult(schedules);
     }
 }

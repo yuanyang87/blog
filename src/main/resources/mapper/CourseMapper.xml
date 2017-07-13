@@ -49,6 +49,7 @@
           FROM image i
             INNER JOIN course cou
               WHERE cou.course_id = i.image_ref
+              LIMIT #{arg0},#{arg1}
     </select>
 
     <select id="findCoursesByKeyWord" resultMap="course" parameterType="String">
@@ -59,5 +60,10 @@
               AND cou.course_id LIKE #{arg0}
               OR cou.course_name LIKE #{arg0}
               OR cou.course_content LIKE #{arg0}
+              LIMIT {arg1},#{arg2}
+    </select>
+
+    <select id="getTotal" resultType="_integer">
+        SELECT COUNT(course_id) FROM course
     </select>
 </mapper>

@@ -1,7 +1,9 @@
 package blog.geek.manager.controller;
 
+import blog.geek.dto.BannerDTO;
 import blog.geek.entity.Banner;
-import blog.geek.manager.service.MngBannerService;
+import blog.geek.entity.Pager;
+import blog.geek.manager.service.BannerService;
 import blog.geek.utils.Result;
 import blog.geek.utils.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +13,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
-
 /**
  * 轮播图管理模块请求
  * @author yuanyang
@@ -20,10 +20,10 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/management")
-public class MngBannerAction {
+public class BannerAction {
 
     @Autowired
-    private MngBannerService mngBannerService;
+    private BannerService bannerService;
 
     /**
      * 添加一张轮播图
@@ -33,7 +33,7 @@ public class MngBannerAction {
      */
     @RequestMapping(value = "/insertBanner",method = RequestMethod.POST)
     public Result insertBanner(Banner banner, MultipartFile picture){
-        mngBannerService.insertBanner(banner,picture);
+        bannerService.insertBanner(banner,picture);
         return ResultUtil.successResult(null);
     }
 
@@ -44,7 +44,7 @@ public class MngBannerAction {
      */
     @RequestMapping(value = "/deleteBanner/{bannerId}",method = RequestMethod.DELETE)
     public Result deleteBanner(@PathVariable String bannerId){
-        mngBannerService.deleteBanner(bannerId);
+        bannerService.deleteBanner(bannerId);
         return ResultUtil.successResult(null);
     }
 
@@ -56,7 +56,7 @@ public class MngBannerAction {
      */
     @RequestMapping(value = "/updateBanner",method = RequestMethod.POST)
     public Result updateBanner(Banner banner, MultipartFile picture){
-        mngBannerService.updateBanner(banner,picture);
+        bannerService.updateBanner(banner,picture);
         return ResultUtil.successResult(null);
     }
 
@@ -65,8 +65,18 @@ public class MngBannerAction {
      * @return
      */
     @RequestMapping(value = "/findAllBanners",method = RequestMethod.GET)
-    public Result findAllBanners(){
-        List<Banner> banners = mngBannerService.findAllBanners();
-        return ResultUtil.successResult(banners);
+    public Result findAllBanners(int pageIndex,int pageSize){
+        Pager<Banner> bannerPager = bannerService.findAllBanners(pageIndex,pageSize);
+        return ResultUtil.successResult(bannerPager);
+    }
+
+    /**
+     * 通过类型获取轮播图
+     * @param bannerType
+     */
+    @RequestMapping(value = "/findBannerByType/{bannerType}",method = RequestMethod.GET)
+    public Result findBannerByType(@PathVariable String bannerType){
+        BannerDTO bannerDTO = bannerService.findBannerByType(bannerType);
+        return ResultUtil.successResult(bannerDTO);
     }
 }

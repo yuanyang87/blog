@@ -52,15 +52,21 @@
           FROM image i
             INNER JOIN article a
               WHERE a.article_id = i.image_ref
+              LIMIT #{arg0,javaType=_integer},#{arg1,javaType=_integer}
     </select>
 
-    <select id="findArticlesByKeyWord" parameterType="String" resultMap="article">
+    <select id="findArticlesByKeyWord" resultMap="article">
         select article_id,article_title,article_Content,article_time,article_link,image_address
           FROM image i
             INNER JOIN article a
               WHERE a.article_id = i.image_ref
-              AND a.article_id LIKE #{arg0}
-              OR a.article_title LIKE #{arg0}
-              OR a.article_Content LIKE #{arg0}
+              AND a.article_id LIKE #{arg0,javaType=String}
+              OR a.article_title LIKE #{arg0,javaType=String}
+              OR a.article_Content LIKE #{arg0,javaType=String}
+              LIMIT #{arg1,javaType=_integer},#{arg2,javaType=_integer}
+    </select>
+
+    <select id="getTotal" resultType="_integer">
+        SELECT COUNT(article_id) FROM article
     </select>
 </mapper>

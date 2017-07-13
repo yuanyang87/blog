@@ -1,8 +1,7 @@
 package blog.geek.test;
 
 import blog.geek.entity.Contact;
-import blog.geek.manager.service.MngContactService;
-import blog.geek.guest.service.GuestContactService;
+import blog.geek.manager.service.ContactService;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -17,10 +16,7 @@ import java.util.List;
 public class ContactTest extends BaseActionTest{
 
     @Autowired
-    private GuestContactService guestContactService;
-
-    @Autowired
-    private MngContactService mngContactService;
+    private ContactService contactService;
 
     @Test
     public void insertTest(){
@@ -31,27 +27,18 @@ public class ContactTest extends BaseActionTest{
         contact.setContactPhone("18875062338");
         contact.setContactContent("This is a test");
 
-        guestContactService.insertContact(contact);
+        contactService.insertContact(contact);
 
     }
 
     @Test
     public void deleteTest(){
-        mngContactService.deleteContact("0tUCuJML");
-    }
-
-    @Test
-    public void findTest(){
-        List<Contact> contacts = mngContactService.findAllContacts();
-        Iterator iterator = contacts.iterator();
-        while (iterator.hasNext()){
-            System.out.println(iterator.next());
-        }
+        contactService.deleteContact("0tUCuJML");
     }
 
     @Test
     public void deleteAllTest(){
-        mngContactService.deleteAllContacts();
+        contactService.deleteAllContacts();
     }
 
 }

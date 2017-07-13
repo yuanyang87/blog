@@ -11,6 +11,7 @@ public class Contact {
     private String contactName; //联系人姓名
     private String contactPhone;    //联系人电话
     private String contactContent;  //主要内容
+    private String contactTitle;    //留言标题
 
     //start getter and setter
     public String getContactId() {
@@ -44,6 +45,15 @@ public class Contact {
     public void setContactContent(String contactContent) {
         this.contactContent = contactContent;
     }
+
+    public String getContactTitle() {
+        return contactTitle;
+    }
+
+    public void setContactTitle(String contactTitle) {
+        this.contactTitle = contactTitle;
+    }
+
     //end getter and setter
 
 }

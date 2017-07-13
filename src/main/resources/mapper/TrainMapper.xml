@@ -48,19 +48,25 @@
         WHERE train_id = #{trainId}
     </update>
 
-    <select id="findAllTrains" resultMap="train">
+    <select id="findAllTrains" resultMap="train" parameterType="_integer">
         SELECT train_id,train_name,train_time,train_content,train_link
           FROM image i
             INNER JOIN train tr
               WHERE tr.train_id = i.image_ref
+              LIMIT #{arg0},#{arg1}
     </select>
 
-    <select id="findTrainsByKeyWord" resultMap="train" parameterType="String">
+    <select id="findTrainsByKeyWord" resultMap="train">
         SELECT train_id,train_name,train_time,train_content,train_link
           FROM image i
             INNER JOIN train tr
               WHERE tr.train_id = i.image_ref
-              AND tr.train_name LIKE #{arg0}
-              OR tr.train_content LIKE #{arg0}
+              AND tr.train_name LIKE #{arg0,javaTpe=String}
+              OR tr.train_content LIKE #{arg0,javaType=String}
+              LIMIT #{arg0,javaType=_integer},#{arg1,javaType=_integer}
+    </select>
+
+    <select id="getTotal" resultType="_integer">
+        SELECT COUNT(train_id) FROM train
     </select>
 </mapper>
