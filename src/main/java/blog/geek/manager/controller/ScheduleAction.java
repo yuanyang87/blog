@@ -21,7 +21,6 @@ import java.util.List;
  * @version 1.0
  */
 @RestController
-@RequestMapping("/management")
 public class ScheduleAction {
 
     @Autowired
@@ -32,7 +31,7 @@ public class ScheduleAction {
      * @param scheduleJson
      * @return
      */
-    @RequestMapping(value = "/insertSchedules",method = RequestMethod.POST)
+    @RequestMapping(value = "/management/insertSchedules",method = RequestMethod.POST)
     public Result insertSchedules(String scheduleJson){
         scheduleService.insertSchedules(JsonUtil.toList(scheduleJson, new TypeReference<List<Schedule>>(){}));
         return ResultUtil.successResult(null);
@@ -43,7 +42,7 @@ public class ScheduleAction {
      * @param schedule
      * @return
      */
-    @RequestMapping(value = "/insertSchedule",method = RequestMethod.POST)
+    @RequestMapping(value = "/management/insertSchedule",method = RequestMethod.POST)
     public Result insertSchedule(Schedule schedule){
         scheduleService.insertSchedule(schedule);
         return ResultUtil.successResult(null);
@@ -54,7 +53,7 @@ public class ScheduleAction {
      * @param scheduleIdJson
      * @return
      */
-    @RequestMapping(value = "/deleteSchedules/{scheduleIdJson}",method = RequestMethod.DELETE)
+    @RequestMapping(value = "/management/deleteSchedules/{scheduleIdJson}",method = RequestMethod.DELETE)
     public Result deleteSchedules(@PathVariable String scheduleIdJson){
         scheduleService.deleteSchedules((List<String>) JsonUtil.toPOJO(scheduleIdJson,new ArrayList<String>().getClass()));
         return ResultUtil.successResult(null);
@@ -65,7 +64,7 @@ public class ScheduleAction {
      * @param scheduleId
      * @return
      */
-    @RequestMapping("/deleteSchedule/{scheduleId}")
+    @RequestMapping("/management/deleteSchedule/{scheduleId}")
     public Result deleteSchedule(@PathVariable String scheduleId){
         scheduleService.deleteSchedule(scheduleId);
         return ResultUtil.successResult(null);
@@ -76,7 +75,7 @@ public class ScheduleAction {
      * @param scheduleJson
      * @return
      */
-    @RequestMapping(value = "/updateSchedules",method = RequestMethod.POST)
+    @RequestMapping(value = "/management/updateSchedules",method = RequestMethod.POST)
     public Result updateSchedules(String scheduleJson){
         scheduleService.updateSchedules(JsonUtil.toList(scheduleJson, new TypeReference<List<Schedule>>(){}));
         return ResultUtil.successResult(null);
@@ -87,7 +86,7 @@ public class ScheduleAction {
      * @param schedule
      * @return
      */
-    @RequestMapping(value = "/updateSchedule",method = RequestMethod.POST)
+    @RequestMapping(value = "/management/updateSchedule",method = RequestMethod.POST)
     public Result updateSchedule(Schedule schedule){
         scheduleService.updateSchedule(schedule);
         return ResultUtil.successResult(null);

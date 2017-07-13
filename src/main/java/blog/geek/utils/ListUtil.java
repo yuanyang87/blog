@@ -27,4 +27,20 @@ public class ListUtil {
         return diff;
     }
 
+    /**
+     * 查找算法,查找这一些字符串是否在文本中出现
+     * @param text
+     * @param strings
+     * @return
+     */
+    public static List<String> searchList(String text,List<String > strings){
+        List<String> notAppear = new ArrayList<String>();   //没有出现的字符串
+        if (strings == null || strings.size() == 0)
+            return null;
+        for (String str : strings){
+            if (text.indexOf(str) == -1)
+                notAppear.add(str);
+        }
+        return notAppear;
+    }
 }

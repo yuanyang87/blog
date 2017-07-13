@@ -77,7 +77,7 @@
         WHERE schedule_id = #{scheduleId}
     </update>
 
-    <select id="findAllSchedule" resultMap="schedule">
+    <select id="findAllSchedules" resultMap="schedule">
         SELECT schedule_id,schedule_name,schedule_content,schedule_weekday,schedule_time
         FROM schedule
     </select>

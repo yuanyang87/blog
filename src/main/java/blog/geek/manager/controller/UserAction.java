@@ -5,10 +5,9 @@ import blog.geek.manager.service.UserService;
 import blog.geek.utils.Result;
 import blog.geek.utils.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 
@@ -24,12 +23,27 @@ public class UserAction {
     @Autowired
     private UserService userService;
 
+    /**
+     * 用户登录
+     * @param user
+     * @return
+     * @throws UnsupportedEncodingException
+     * @throws NoSuchAlgorithmException
+     */
     @RequestMapping(value = "/login",method = RequestMethod.POST)
-    public Result login(User user) throws UnsupportedEncodingException, NoSuchAlgorithmException {
+    public Result login(User user, HttpServletRequest request) throws UnsupportedEncodingException, NoSuchAlgorithmException {
+        request.getSession().setAttribute("user",user);
         userService.login(user);
         return ResultUtil.successResult(null);
     }
 
+    /**
+     * 更新用户信息
+     * @param user
+     * @return
+     * @throws UnsupportedEncodingException
+     * @throws NoSuchAlgorithmException
+     */
     @RequestMapping(value = "/updateUser",method = RequestMethod.POST)
     public Result updateUser(User user) throws UnsupportedEncodingException, NoSuchAlgorithmException {
         userService.updateUser(user);

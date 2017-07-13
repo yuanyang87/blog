@@ -21,36 +21,6 @@ public class UserTest extends BaseActionTest{
     private UserService userService;
 
     @Test
-    public void insert() throws UnsupportedEncodingException, NoSuchAlgorithmException {
-        User user = new User();
-        user.setUserName("yuanyang");
-        user.setPassword("123456");
-        user.setRealName("袁阳");
-
-        userService.insertUser(user);
-    }
-
-
-    @Test
-    public void find(){
-        System.out.println(userService.findAllUsers());
-    }
-
-    @Test
-    public void update() throws UnsupportedEncodingException, NoSuchAlgorithmException {
-        User user = new User();
-        user.setUserName("yuanyang");
-        user.setPassword("654321");
-        user.setRealName("侯虹谷");
-        userService.updateUser(user);
-    }
-
-    @Test
-    public void delete(){
-        userService.deleteUser("yuanyang");
-    }
-
-    @Test
     public void login() throws UnsupportedEncodingException, NoSuchAlgorithmException {
         User user = new User();
         user.setUserName("yuanyang");

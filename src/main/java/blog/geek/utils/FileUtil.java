@@ -121,9 +121,10 @@ public class FileUtil {
      * @param imagePaths
      */
     public void deleteImages(List<String> imagePaths){
-        for (String imagePath:imagePaths){
-            deleteImage(imagePath);
-        }
+        if (imagePaths != null || imagePaths.size() != 0)
+            for (String imagePath:imagePaths){
+                deleteImage(imagePath);
+            }
     }
 
     /**

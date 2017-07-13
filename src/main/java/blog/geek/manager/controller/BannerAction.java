@@ -19,7 +19,6 @@ import org.springframework.web.multipart.MultipartFile;
  * @version 1.0
  */
 @RestController
-@RequestMapping("/management")
 public class BannerAction {
 
     @Autowired
@@ -31,7 +30,7 @@ public class BannerAction {
      * @param picture
      * @return
      */
-    @RequestMapping(value = "/insertBanner",method = RequestMethod.POST)
+    @RequestMapping(value = "/management/insertBanner",method = RequestMethod.POST)
     public Result insertBanner(Banner banner, MultipartFile picture){
         bannerService.insertBanner(banner,picture);
         return ResultUtil.successResult(null);
@@ -42,7 +41,7 @@ public class BannerAction {
      * @param bannerId
      * @return
      */
-    @RequestMapping(value = "/deleteBanner/{bannerId}",method = RequestMethod.DELETE)
+    @RequestMapping(value = "/management/deleteBanner/{bannerId}",method = RequestMethod.DELETE)
     public Result deleteBanner(@PathVariable String bannerId){
         bannerService.deleteBanner(bannerId);
         return ResultUtil.successResult(null);
@@ -54,7 +53,7 @@ public class BannerAction {
      * @param picture
      * @return
      */
-    @RequestMapping(value = "/updateBanner",method = RequestMethod.POST)
+    @RequestMapping(value = "/management/updateBanner",method = RequestMethod.POST)
     public Result updateBanner(Banner banner, MultipartFile picture){
         bannerService.updateBanner(banner,picture);
         return ResultUtil.successResult(null);
@@ -64,7 +63,7 @@ public class BannerAction {
      * 后台获取所有的轮播图
      * @return
      */
-    @RequestMapping(value = "/findAllBanners",method = RequestMethod.GET)
+    @RequestMapping(value = "/management/findAllBanners",method = RequestMethod.GET)
     public Result findAllBanners(int pageIndex,int pageSize){
         Pager<Banner> bannerPager = bannerService.findAllBanners(pageIndex,pageSize);
         return ResultUtil.successResult(bannerPager);

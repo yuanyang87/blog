@@ -1,8 +1,10 @@
 package blog.geek.manager.service;
 
-import blog.geek.entity.Pager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.text.ParseException;
+import java.util.HashMap;
 
 /**
  * 客户搜索服务
@@ -10,7 +12,7 @@ import org.springframework.stereotype.Service;
  * @version 1.0
  */
 @Service
-public class SearchService {
+public class SearchService<T> {
 
     @Autowired
     private ArticleService articleService;
@@ -19,10 +21,21 @@ public class SearchService {
     @Autowired
     private TrainService trainService;
 
-    public Pager<Object> searchAll(String type, String key, int pageIndex, int pageSize){
+    public HashMap<String,Object> searchAll(String type, String key) throws ParseException {
+        HashMap<String,Object> objects = new HashMap<String, Object>();
+        if (type.equals("title")){
+             objects.put("articles",articleService.findArticlesByKeyWord("%" + key + "%"));
+             objects.put("courses",courseService.findCourseByKeyWord("%" + key + "%"));
+             objects.put("trains",trainService.findTrainByKeyWord("%" + key + "%"));
+             return objects;
+        }
+        if (type.equals("time")){
+            String dateString = key.replace(".","-");
 
-        if (type.equals("article")){
-
+            objects.put("articles",articleService.findArticlesByTime(dateString));
+            objects.put("courses",courseService.findCourseByTime(dateString));
+            objects.put("trains",trainService.findTrainByTime(dateString));
+            return objects;
         }
         return null;
     }

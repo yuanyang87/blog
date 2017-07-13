@@ -53,15 +53,15 @@ public interface TrainDao {
     /**
      * 按关键字查询
      * @param key
-     * @param offSet
-     * @param limit
      * @return
      */
-    List<Train> findTrainsByKeyWord(String key,int offSet,int limit);
+    List<Train> findTrainsByKeyWord(String key);
 
     /**
      * 获得总条数
      * @return
      */
     int getTotal();
+
+    List<Train> findTrainByTime(String date);
 }

@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,31 +21,36 @@ import java.util.List;
  * @version 1.0
  */
 @RestController
-@RequestMapping("/management")
 public class ArticleAction {
 
     @Autowired
     private ArticleService articleService;
 
-    @RequestMapping(value = "/insertArticle",method = RequestMethod.POST)
+    /**
+     * 添加一篇文章,上传文章的信息,并把使用到的图片Id返回
+     * 因为上传的图片不一定都使用了,将未使用的删除以免占用存储空间
+     * @param article
+     * @return
+     */
+    @RequestMapping(value = "/management/insertArticle",method = RequestMethod.POST)
     public Result insertArticle(Article article){
         articleService.insertArticle(article);
         return ResultUtil.successResult(null);
     }
 
-    @RequestMapping(value = "/deleteArticle/{articleId}",method = RequestMethod.DELETE)
+    @RequestMapping(value = "/management/management/deleteArticle/{articleId}",method = RequestMethod.DELETE)
     public Result deleteArticle(@PathVariable String articleId){
         articleService.deleteArticle(articleId);
         return ResultUtil.successResult(null);
     }
 
-    @RequestMapping(value = "/deleteArticles/{articleIdJson}",method = RequestMethod.DELETE)
+    @RequestMapping(value = "/management/deleteArticles/{articleIdJson}",method = RequestMethod.DELETE)
     public Result deleteArticles(@PathVariable String articleIdJson){
         articleService.deleteArticles((List<String>) JsonUtil.toPOJO(articleIdJson,new ArrayList<String>().getClass()));
         return ResultUtil.successResult(null);
     }
 
-    @RequestMapping(value = "/updateArticle",method = RequestMethod.POST)
+    @RequestMapping(value = "/management/updateArticle",method = RequestMethod.POST)
     public Result updateArticle(Article article){
         articleService.updateArticle(article);
         return ResultUtil.successResult(null);

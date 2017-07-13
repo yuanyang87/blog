@@ -1,7 +1,5 @@
 package blog.geek.entity;
 
-import java.util.List;
-
 /**
  * 随笔
  * @author yuanyang
@@ -11,8 +9,8 @@ public class Article {
 
     private String articleId;   //编号
     private String articleTitle;    //随笔题目
-    private String articleTime; //随笔发送时间
-    private String articleContent;  //随笔内容
+    private String articleTime; //随笔发表时间
+    private String articleContent;  //随笔内容(含代码一起存放)
     private String articleLink; //视频链接
 
     //start getter and setter

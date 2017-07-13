@@ -3,14 +3,6 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="blog.geek.dao.ImageDao">
 
-    <insert id="insertImages" parameterType="java.util.List">
-        INSERT INTO image(image_id,image_name,image_address,image_ref)
-        VALUES
-        <foreach collection="images" item="image" separator=",">
-            (#{image.imageId},#{image.imageName},#{image.imageAddress},#{image.imageRef})
-        </foreach>
-    </insert>
-
     <insert id="insertImage" parameterType="image">
         INSERT INTO image(image_id,image_name,image_address,image_ref)
         VALUES
@@ -24,25 +16,13 @@
         </foreach>
     </delete>
 
-    <delete id="deleteImagesNotInList">
-        DELETE FROM image WHERE image_ref = #{articleId}
-        AND image_address IN
-        <foreach collection="imagePaths" open="(" separator="," close=")" item="path">
-            #{path}
-        </foreach>
-    </delete>
-
     <select id="getImagePath" parameterType="String" resultType="String">
         SELECT image_address FROM image WHERE image_ref = #{arg0}
     </select>
 
-    <select id="countImages" parameterType="String" resultType="_integer">
-        SELECT count(image_id) FROM image WHERE image_ref = #{arg0}
-    </select>
-
     <select id="getImagePaths" parameterType="java.util.List" resultType="String">
         SELECT image_address FROM image WHERE image_ref IN
-        <foreach collection="articleIds" item="id" open="(" separator="," close=")">
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
             #{id}
         </foreach>
     </select>

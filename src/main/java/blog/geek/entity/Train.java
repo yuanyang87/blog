@@ -1,7 +1,5 @@
 package blog.geek.entity;
 
-import java.util.List;
-
 /**
  * 训练项目
  * @author yuanyang

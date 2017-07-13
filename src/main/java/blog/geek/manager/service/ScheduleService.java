@@ -3,6 +3,7 @@ package blog.geek.manager.service;
 import blog.geek.dao.ScheduleDao;
 import blog.geek.entity.Schedule;
 import blog.geek.exception.ErrorException;
+import blog.geek.utils.RandomStringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,6 +35,7 @@ public class ScheduleService {
      * @param schedule
      */
     public void insertSchedule(Schedule schedule){
+        schedule.setScheduleId(RandomStringUtil.repeatableString(8));
         if (scheduleDao.insertSchedule(schedule) != 1)
             throw new ErrorException("课程表添加操作失败");
     }

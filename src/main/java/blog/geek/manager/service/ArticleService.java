@@ -1,15 +1,15 @@
 package blog.geek.manager.service;
 
 import blog.geek.dao.ArticleDao;
-import blog.geek.dao.ImageDao;
 import blog.geek.entity.Article;
 import blog.geek.entity.Pager;
 import blog.geek.exception.ErrorException;
-import blog.geek.utils.FileUtil;
-import blog.geek.utils.RandomStringUtil;
+import blog.geek.utils.ListUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -22,40 +22,38 @@ public class ArticleService {
 
     @Autowired
     private ArticleDao articleDao;
-
     @Autowired
-    private FileUtil fileUtil;
-
-    @Autowired
-    private ImageDao imageDao;
+    private ImageService imageService;
 
     /**
-     * 添加一篇随笔,可能有0~n个图片
-     * 没有图片就直接插入文章
-     * 如果有图片,先遍历文件数组,存放文件
-     * 在插入数据,如果数据插入失败,删除文件
+     * 添加文章
+     * 再写的时候已经将图片上传了,为了避免有些图片在编辑过程中被删除,先要找出没有使用的图片,全部删除
      * @param article
+     *
      */
     public void insertArticle(Article article){
-        article.setArticleId(RandomStringUtil.unrepeatableString(8));//设置编号
+        List<String> notAppear = ListUtil.searchList(article.getArticleContent(),imageService.getImagePath(article.getArticleId()));    //没有出现的那些图片地址
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        article.setArticleTime(simpleDateFormat.format(new Date()));
+
         if (articleDao.insertArticle(article) != 1)//存放随笔数据
-           throw new ErrorException("操作失败,请重新操作");
+           throw new ErrorException("提交失败,请重新操作");
+
+        imageService.deleteImages(notAppear);
     }
 
     /**
-     * 删除一篇随笔
+     * 删除一篇随笔,连同其图片一起删除
      * @param articleId
      */
     public void deleteArticle(String articleId){
-        List<String> imagePaths = imageDao.getImagePath(articleId);
+        List<String> imagePaths = imageService.getImagePath(articleId); //找出该文章使用的图片
 
         if (articleDao.deleteArticle(articleId) != 1)
-            throw new ErrorException("删除随笔失败,请重新操作");
+            throw new ErrorException("删除失败,请重新操作");
 
-        if (imageDao.deleteImagesByImagePath(imagePaths) != imagePaths.size())
-            throw new ErrorException("删除随笔失败,请重新操作");
-
-        fileUtil.deleteImages(imagePaths);//如果数据都删除成功,则删除磁盘上的图片
+        imageService.deleteImages(imagePaths);
     }
 
     /**
@@ -63,25 +61,25 @@ public class ArticleService {
      * @param articleIds
      */
     public void deleteArticles(List<String> articleIds){
-        List<String> imagePaths = imageDao.getImagePaths(articleIds);
+        List<String> imagePaths = imageService.getImagePaths(articleIds);   //要被删除的所有文章Id
 
-        if (articleDao.deleteArticles(articleIds) != articleIds.size())
-            throw new ErrorException("删除随笔失败,请重新操作");
+        if (articleDao.deleteArticles(articleIds) != articleIds.size()) //删除文章数据
+            throw new ErrorException("删除失败,请重新操作");
 
-        if (imageDao.deleteImagesByImagePath(imagePaths) != imagePaths.size())
-            throw new ErrorException("删除随笔失败,请重新操作");
-
-        fileUtil.deleteImages(imagePaths);
+        imageService.deleteImages(imagePaths);
     }
 
     /**
-     * 更新文章,可能会更新0-n张图片
+     * 更新文章
      * @param article
      */
     public void updateArticle(Article article){
-        List<String> allPaths = imageDao.getImagePath(article.getArticleId());  //该文章原有的全部的图片
+        List<String> notAppear = ListUtil.searchList(article.getArticleContent(),imageService.getImagePath(article.getArticleId()));
+
         if (articleDao.updateArticle(article) != 1)//更新数据库
             throw new ErrorException("更新失败,请重新操作");
+
+        imageService.deleteImages(notAppear);
     }
 
     /**
@@ -103,4 +101,11 @@ public class ArticleService {
         return articlePager;
     }
 
+    public List<Article> findArticlesByKeyWord(String key){
+        return articleDao.findArticlesByKeyWord(key);
+    }
+
+    public List<Article> findArticlesByTime(String date) {
+        return articleDao.findArticlesByTime(date);
+    }
 }

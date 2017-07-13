@@ -8,9 +8,6 @@
         <result column="train_time" javaType="String" jdbcType="VARCHAR" property="trainTime"/>
         <result column="train_content" javaType="String" jdbcType="VARCHAR" property="trainContent"/>
         <result column="train_link" javaType="String" jdbcType="VARCHAR" property="trainLink"/>
-        <collection property="trainImg" ofType="String">
-            <result column="image_address"/>
-        </collection>
     </resultMap>
 
     <insert id="insertTrain" parameterType="train">
@@ -35,9 +32,6 @@
             <if test="trainName != null and trainName != ''">
                 train_name = #{trainName},
             </if>
-            <if test="trainTime != null and trainTime != ''">
-                train_time = #{trainTime},
-            </if>
             <if test="trainContent != null and trainContent != ''">
                 train_content = #{trainContent},
             </if>
@@ -58,12 +52,14 @@
 
     <select id="findTrainsByKeyWord" resultMap="train">
         SELECT train_id,train_name,train_time,train_content,train_link
-          FROM image i
-            INNER JOIN train tr
-              WHERE tr.train_id = i.image_ref
-              AND tr.train_name LIKE #{arg0,javaTpe=String}
-              OR tr.train_content LIKE #{arg0,javaType=String}
-              LIMIT #{arg0,javaType=_integer},#{arg1,javaType=_integer}
+          FROM train
+            WHERE train_name LIKE #{arg0,javaType=String}
+    </select>
+
+    <select id="findTrainByTime" resultMap="train">
+        SELECT train_id,train_name,train_time,train_content,train_link
+        FROM train
+        WHERE train_time LIKE #{arg0,javaType=String}
     </select>
 
     <select id="getTotal" resultType="_integer">

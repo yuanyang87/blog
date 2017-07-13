@@ -32,14 +32,6 @@ public interface ImageDao {
     int deleteImagesByImagePath(@Param("paths") List<String> imagePaths);
 
     /**
-     * 删除不在此列的图片
-     * @param imagePaths
-     * @param articleId
-     * @return
-     */
-    int deleteImagesNotInList(@Param("imagePaths") List<String> imagePaths, @Param("articleId") String articleId);
-
-    /**
      * 通过图片指向某对象的关键字,获取图片的虚拟地址,以供删除,
      * @param key
      * @return
@@ -48,10 +40,10 @@ public interface ImageDao {
 
     /**
      * 获取下列随笔的所有图片
-     * @param articleIds
+     * @param ids
      * @return
      */
-    List<String> getImagePaths(@Param("articleIds") List<String> articleIds);
+    List<String> getImagePaths(@Param("ids") List<String> ids);
 
 
 }

@@ -20,31 +20,30 @@ import java.util.List;
  * @version 1.0
  */
 @RestController
-@RequestMapping("/management")
 public class ContactAction {
 
     @Autowired
     private ContactService contactService;
 
-    @RequestMapping(value = "/deleteContact/{contactId}",method = RequestMethod.DELETE)
+    @RequestMapping(value = "/management/deleteContact/{contactId}",method = RequestMethod.DELETE)
     public Result deleteContact(@PathVariable String contactId) {
         contactService.deleteContact(contactId);
         return ResultUtil.successResult(null);
     }
 
-    @RequestMapping(value = "/deleteContacts/{jsonString}")
+    @RequestMapping(value = "/management/deleteContacts/{jsonString}",method = RequestMethod.DELETE)
     public Result deleteContacts(@PathVariable String jsonString){
         contactService.deleteContacts((String[]) JsonUtil.toPOJO(jsonString,String[].class));
         return ResultUtil.successResult(null);
     }
 
-    @RequestMapping(value = "/deleteAllContacts",method = RequestMethod.DELETE)
+    @RequestMapping(value = "/management/deleteAllContacts",method = RequestMethod.DELETE)
     public Result deleteAllContacts(){
         contactService.deleteAllContacts();
         return ResultUtil.successResult(null);
     }
 
-    @RequestMapping(value = "/findAllContacts",method = RequestMethod.GET)
+    @RequestMapping(value = "/management/findAllContacts",method = RequestMethod.GET)
     public Result findAllContacts(int pageIndex,int pageSize){
         Pager<Contact> contactPager = contactService.findAllContacts(pageIndex,pageSize);
         return ResultUtil.successResult(contactPager);

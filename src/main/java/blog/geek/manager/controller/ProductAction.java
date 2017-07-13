@@ -18,25 +18,24 @@ import org.springframework.web.multipart.MultipartFile;
  * @version 1.0
  */
 @RestController
-@RequestMapping("/management")
 public class ProductAction {
 
     @Autowired
     private ProductService productService;
 
-    @RequestMapping(value = "/insertProduct",method = RequestMethod.POST)
+    @RequestMapping(value = "/management/insertProduct",method = RequestMethod.POST)
     public Result insertProduct(Product product, MultipartFile picture){
         productService.insertProduct(product,picture);
         return ResultUtil.successResult(null);
     }
 
-    @RequestMapping(value = "/deleteProduct/{productId}",method = RequestMethod.DELETE)
+    @RequestMapping(value = "/management/deleteProduct/{productId}",method = RequestMethod.DELETE)
     public Result deleteProduct(@PathVariable String productId){
         productService.deleteProduct(productId);
         return ResultUtil.successResult(null);
     }
 
-    @RequestMapping(value = "/updateProduct",method = RequestMethod.POST)
+    @RequestMapping(value = "/management/updateProduct",method = RequestMethod.POST)
     public Result updateProduct(Product product, MultipartFile picture){
         productService.updateProduct(product,picture);
         return ResultUtil.successResult(null);

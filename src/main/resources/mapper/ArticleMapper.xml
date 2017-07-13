@@ -8,9 +8,6 @@
         <result column="article_content" javaType="String" jdbcType="VARCHAR" property="articleContent"/>
         <result column="article_time" javaType="String" jdbcType="VARCHAR" property="articleTime"/>
         <result column="article_link" javaType="String" jdbcType="VARCHAR" property="articleLink"/>
-        <collection property="articleImg" ofType="String">
-            <result column="image_address"/>
-        </collection>
     </resultMap>
 
     <insert id="insertArticle" parameterType="article">
@@ -47,23 +44,22 @@
         WHERE article_id = #{articleId}
     </update>
 
-    <select id="findAllArticles" resultMap="article">
-        select article_id,article_title,article_Content,article_time,article_link,image_address
-          FROM image i
-            INNER JOIN article a
-              WHERE a.article_id = i.image_ref
-              LIMIT #{arg0,javaType=_integer},#{arg1,javaType=_integer}
+    <select id="findAllArticles" resultMap="article" parameterType="_integer">
+        select article_id,article_title,article_Content,article_time,article_link
+          FROM article
+            LIMIT #{arg0},#{arg1}
     </select>
 
     <select id="findArticlesByKeyWord" resultMap="article">
-        select article_id,article_title,article_Content,article_time,article_link,image_address
-          FROM image i
-            INNER JOIN article a
-              WHERE a.article_id = i.image_ref
-              AND a.article_id LIKE #{arg0,javaType=String}
-              OR a.article_title LIKE #{arg0,javaType=String}
-              OR a.article_Content LIKE #{arg0,javaType=String}
-              LIMIT #{arg1,javaType=_integer},#{arg2,javaType=_integer}
+        select article_id,article_title,article_Content,article_time,article_link
+          FROM article
+            WHERE article_title LIKE #{arg0,javaType=String}
+    </select>
+
+    <select id="findArticlesByTime" resultMap="article">
+        select article_id,article_title,article_Content,article_time,article_link
+        FROM article
+        WHERE article_time LIKE #{arg0,javaType=String}
     </select>
 
     <select id="getTotal" resultType="_integer">

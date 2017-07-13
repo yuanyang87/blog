@@ -53,15 +53,15 @@ public interface CourseDao {
     /**
      * 按关键字查询
      * @param key
-     * @param offSet
-     * @param limit
      * @return
      */
-    List<Course> findCoursesByKeyWord(String key,int offSet,int limit);
+    List<Course> findCoursesByKeyWord(String key);
 
     /**
      * 获取总数目
      * @return
      */
     int getTotal();
+
+    List<Course> findCourseByTime(String date);
 }

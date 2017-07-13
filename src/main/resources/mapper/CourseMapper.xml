@@ -7,14 +7,12 @@
         <result column="course_name" javaType="String" jdbcType="VARCHAR" property="courseName"/>
         <result column="course_content" javaType="String" jdbcType="VARCHAR" property="courseContent"/>
         <result column="course_link" javaType="String" jdbcType="VARCHAR" property="courseLink"/>
-        <collection property="courseImage" ofType="String">
-            <result column="image_address"/>
-        </collection>
+        <result column="course_time" javaType="String" jdbcType="VARCHAR" property="courseTime"/>
     </resultMap>
 
     <insert id="insertCourse" parameterType="course">
-        INSERT INTO course(course_id,course_name,course_content,course_link)
-        VALUES (#{courseId},#{courseName},#{courseContent},#{courseLink})
+        INSERT INTO course(course_id,course_name,course_content,course_link,course_time)
+        VALUES (#{courseId},#{courseName},#{courseContent},#{courseLink},#{courseTime})
     </insert>
 
     <delete id="deleteCourse" parameterType="String">
@@ -44,23 +42,22 @@
         WHERE course_id = #{courseId}
     </update>
 
-    <select id="findAllCourses" resultMap="course">
-        SELECT course_id,course_name,course_content,course_link,image_address
-          FROM image i
-            INNER JOIN course cou
-              WHERE cou.course_id = i.image_ref
-              LIMIT #{arg0},#{arg1}
+    <select id="findAllCourses" resultMap="course" parameterType="_integer">
+        SELECT course_id,course_name,course_content,course_link,course_time
+          FROM course
+            LIMIT #{arg0},#{arg1}
     </select>
 
-    <select id="findCoursesByKeyWord" resultMap="course" parameterType="String">
-        SELECT course_id,course_name,course_content,course_link,image_address
-          FROM image i
-            INNER JOIN course cou
-              WHERE cou.course_id = i.image_ref
-              AND cou.course_id LIKE #{arg0}
-              OR cou.course_name LIKE #{arg0}
-              OR cou.course_content LIKE #{arg0}
-              LIMIT {arg1},#{arg2}
+    <select id="findCoursesByKeyWord" resultMap="course">
+        SELECT course_id,course_name,course_content,course_link,course_time
+          FROM course
+            WHERE course_name LIKE #{arg0,javaType=String}
+    </select>
+
+    <select id="findCourseByTime" resultMap="course">
+        SELECT course_id,course_name,course_content,course_link,course_time
+        FROM course
+        WHERE course_time LIKE #{arg0,javaType=String}
     </select>
 
     <select id="getTotal" resultType="_integer">
