@@ -1,6 +1,5 @@
 package blog.geek.dao;
 
-import blog.geek.dto.BannerDTO;
 import blog.geek.entity.Banner;
 import blog.geek.entity.Image;
 import org.apache.ibatis.annotations.Param;
@@ -38,13 +37,6 @@ public interface BannerDao {
      * @return
      */
     int deleteBanner(String bannerId);
-
-    /**
-     * 前端获取不同类型的轮播图
-     * @param bannerType
-     * @return
-     */
-    BannerDTO findBannerByType(String bannerType);
 
     /**
      * 后台获取所有的轮播图

@@ -3,12 +3,11 @@ package blog.geek.entity;
 /**
  * 轮播图片
  * @author yuanyang
- * @version 1.0
+ * @version 1.1 去除了轮播的类型.前端决定把下部分轮播写死.
  */
 public class Banner {
 
     private String bannerId;    //轮播图编号
-    private String bannerType;  //轮播图类型(分为顶部轮播与下方的下轮播)
     private String bannerImg;   //轮播图地址
 
     //start getter and setter
@@ -18,14 +17,6 @@ public class Banner {
 
     public void setBannerId(String bannerId) {
         this.bannerId = bannerId;
-    }
-
-    public String getBannerType() {
-        return bannerType;
-    }
-
-    public void setBannerType(String bannerType) {
-        this.bannerType = bannerType;
     }
 
     public String getBannerImg() {

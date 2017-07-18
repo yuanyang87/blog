@@ -9,13 +9,6 @@
         <result column="image_address" javaType="String" jdbcType="VARCHAR" property="bannerImg"/>
     </resultMap>
 
-    <resultMap id="bannerDTO" type="bannerDTO">
-        <result column="banner_type" javaType="String" jdbcType="VARCHAR" property="bannerType"/>
-        <collection property="bannerImg" ofType="string">
-            <result column="image_address"/>
-        </collection>
-    </resultMap>
-
     <insert id="insertBannerImage">
         INSERT INTO banner(banner_id,banner_type) VALUES (#{banner.bannerId},#{banner.bannerType});
         INSERT INTO image(image_id,image_name,image_address,image_ref) VALUES (#{image.imageId},#{image.imageName},#{image.imageAddress},#{image.imageRef});
@@ -54,13 +47,6 @@
           FROM banner,image
             WHERE banner.banner_id = image.image_ref
             LIMIT #{arg0},#{arg1}
-    </select>
-
-    <select id="findBannerByType" parameterType="String" resultMap="bannerDTO">
-        SELECT banner_type,image_address
-          FROM image i
-            INNER JOIN banner b
-              WHERE b.banner_id = i.image_ref
     </select>
 
     <select id="getTotal" resultType="_integer">

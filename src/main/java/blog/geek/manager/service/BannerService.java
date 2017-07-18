@@ -2,7 +2,6 @@ package blog.geek.manager.service;
 
 import blog.geek.dao.BannerDao;
 import blog.geek.dao.ImageDao;
-import blog.geek.dto.BannerDTO;
 import blog.geek.entity.Banner;
 import blog.geek.entity.Image;
 import blog.geek.entity.Pager;
@@ -109,15 +108,5 @@ public class BannerService {
 
         bannerPager.setResult(banners);
         return bannerPager;
-    }
-
-    /**
-     * 前端根据不同的类型获取轮播图片
-     * @param bannerType
-     * @return
-     */
-    public BannerDTO findBannerByType(String bannerType){
-        BannerDTO bannerDTO = bannerDao.findBannerByType(bannerType);
-        return bannerDTO;
     }
 }

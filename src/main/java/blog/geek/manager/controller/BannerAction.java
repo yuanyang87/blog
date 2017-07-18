@@ -1,6 +1,5 @@
 package blog.geek.manager.controller;
 
-import blog.geek.dto.BannerDTO;
 import blog.geek.entity.Banner;
 import blog.geek.entity.Pager;
 import blog.geek.manager.service.BannerService;
@@ -69,13 +68,4 @@ public class BannerAction {
         return ResultUtil.successResult(bannerPager);
     }
 
-    /**
-     * 通过类型获取轮播图
-     * @param bannerType
-     */
-    @RequestMapping(value = "/findBannerByType/{bannerType}",method = RequestMethod.GET)
-    public Result findBannerByType(@PathVariable String bannerType){
-        BannerDTO bannerDTO = bannerService.findBannerByType(bannerType);
-        return ResultUtil.successResult(bannerDTO);
-    }
 }
