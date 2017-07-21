@@ -43,13 +43,7 @@ public class ProductAction {
 
     @RequestMapping(value = "/findAllProducts",method = RequestMethod.GET)
     public Result findAllProducts(int pageIndex,int pageSize){
-        System.out.println("111111111111111111111111");
-
         Pager<Product> productPager = productService.findAllProducts(pageIndex,pageSize);
-
-
-        System.out.println(222222222222222222L);
-
         return ResultUtil.successResult(productPager);
     }
 

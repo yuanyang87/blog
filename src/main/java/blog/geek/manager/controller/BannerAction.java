@@ -31,8 +31,8 @@ public class BannerAction {
      */
     @RequestMapping(value = "/management/insertBanner",method = RequestMethod.POST)
     public Result insertBanner(Banner banner, MultipartFile picture){
-        bannerService.insertBanner(banner,picture);
-        return ResultUtil.successResult(null);
+        String imageAddress = bannerService.insertBanner(banner,picture);
+        return ResultUtil.successResult(imageAddress);
     }
 
     /**

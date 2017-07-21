@@ -35,7 +35,7 @@ public class BannerService {
      * @param banner
      * @param picture
      */
-    public void insertBanner(Banner banner, MultipartFile picture) {
+    public String insertBanner(Banner banner, MultipartFile picture) {
         if (picture == null)
             throw new ErrorException("您还没有选择图片哟,请重新操作");
 
@@ -52,6 +52,7 @@ public class BannerService {
             fileUtil.deleteImage(image.getImageAddress());//删除图片,以免浪费服务器存储空间
             throw new ErrorException("数据库出错啦~,请重新操作");
         }
+        return image.getImageAddress();
     }
 
     /**

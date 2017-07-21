@@ -6,7 +6,6 @@ package blog.geek.entity;
  * @version 1.0
  */
 public class Article {
-
     private String articleId;   //编号
     private String articleTitle;    //随笔题目
     private String articleTime; //随笔发表时间
