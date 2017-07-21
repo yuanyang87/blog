@@ -1,9 +1,5 @@
 package blog.geek.utils;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Random;
-
 /**
  * 字符串随机生成工具类
  * @author yuanyang
