@@ -2,7 +2,7 @@ var total,pageSize,curPage,totalPage;
 function getData(page,pageSize){
     $.ajax({
         type: 'GET',
-        url: "/blog/findAllProducts",
+        url: "/blog/management/findAllContacts",
         data: {
             'pageIndex':page,
             'pageSize':pageSize
@@ -24,7 +24,9 @@ function getData(page,pageSize){
             var li = "";
             for (var i = 0; i < data.length; i++) { //遍历json数据列
                 // li += "<li><a href='#'>"+array['id']+"</a><>";
-                li += '<tr><td class="post-title"><a href="trans.html">'
+                li += '<tr><td style="display: none" id="myId">'
+                    +data[i].contactId+
+                    '</td><td class="post-title"><a href="trans.html">'
                     +data[i].contactName+
                     '</td><td>'
                     +data[i].contactPhone+
@@ -32,9 +34,9 @@ function getData(page,pageSize){
                     +data[i].contactTime+
                     '</td><td id="edit">'
                     +data[i].contactContent+
-                    '</td><td id="del"><input type="button" class="btn btn-danger" id="del" value="删除" onclick="del()"></td></tr>';
+                    '</td><td id="del"><input type="button" class="btn btn-danger" id="del" value="删除"></td></tr>';
             };
-            $(".articel-list").html(li);
+            $("#article-list").html(li);
         },
         complete:function(){ //生成分页条
             getPageBar();
@@ -84,54 +86,22 @@ function fun(){
 }
 
 $(function() {
-	var str = '';
-	/*$.ajax({
-		type:"GET",
-		url:"/blog/findAllContacts",
-		beforeSend:function() {
-			response.header("Access-Control-Allow-Origin","*");
-		},
-		data:{
-			pageIndex:1,
-            pageSize:5
-		},
-		success:function(data) {
-			if (data.status==1) {
-				var data = data.data.result;
-				for (var i = 0; i < data.length; i++) {
-					str += '<tr><td class="post-title"><a href="trans.html">'
-					+data[i].contactName+
-					'</td><td>'
-					+data[i].contactPhone+
-					'</td><td>'
-					+data[i].contactTime+
-					'</td><td id="edit">'
-					+data[i].contactContent+
-					'</td><td id="del"><input type="button" class="btn btn-danger" id="del" value="删除" onclick="del()"></td></tr>';		
-				}
-				console.log(data[0]);
-				$('.articel-list').append(str);
-			}
-			
-			
-		},
-		error:function() {
-			console.log("can get data!");
-		}
-	});*/
+    $(document).on('click','#del',function(){
+        myId = $(this).closest("tr").find('#myId').text();
+        console.log(myId);
+        $.ajax({
+            type:"DELETE",
+            url:"/blog/management/deleteContact/"+myId,
+            success:function() {
+
+                window.location.reload();
+                alert("删除成功！");
+
+            },
+            error:function() {
+                alert("删除失败！");
+            }
+        })
+    });
 	
 })
-    function del(){
-		$.ajax({
-			type:"DELETE",
-			url:"/blog/management/deleteContact/{"+myID+"}",
-			success:function() {
-				alert("删除成功！");
-				window.location.reload();
-
-			},
-			error:function() {
-				alert("删除失败！");
-			}
-		})
-	}

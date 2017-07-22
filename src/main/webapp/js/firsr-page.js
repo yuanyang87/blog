@@ -6,20 +6,21 @@ $(function() {
 		//var file = this.files[0];
         var reader = new FileReader();
         reader.readAsDataURL(this.files[0]);
-		console.log(file);
-		//var bannerImg = file.name;
-		var formData = new FormData('picture',file);
-		formData.append("bannerImg",bannerImg);
+		var data = new FormData($('#form1')[0]);
+		//formData.append("bannerImg",bannerImg);
 		$.ajax({
 			type:"post",
-			url:"/blog/management/uploadImage",
-			data:{
-                'picture':file
-			},
+			url:"/blog/management/insertBanner",
+            data:data,
+            async:false,
+            cache:false,
+            contentType:false,
+            processData:false,
 			success:function(data) {
 				alert('上传成功！');
-                src = data.bannerImg;
-				window.location.reload();
+                src = data;
+                console.log(src);
+				// window.location.reload();
 
 			},
 			error:function() {

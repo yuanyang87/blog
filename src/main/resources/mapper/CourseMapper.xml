@@ -48,6 +48,12 @@
             LIMIT #{arg0},#{arg1}
     </select>
 
+    <select id="findCourseById" resultMap="course" parameterType="String">
+        SELECT course_id,course_name,course_content,course_link,course_time
+          FROM course
+            WHERE course_id = #{arg0}
+    </select>
+
     <select id="findCoursesByKeyWord" resultMap="course">
         SELECT course_id,course_name,course_content,course_link,course_time
           FROM course

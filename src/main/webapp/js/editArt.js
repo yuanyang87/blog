@@ -1,3 +1,4 @@
+//console.log(myId);
 console.log(myID);
 $(function() {
 	$.ajax({
@@ -8,7 +9,7 @@ $(function() {
 			console.log(data);
 			for(var i=0;i<data.length;i++) {
 				console.log(data[i].articleId);
-				if (data[i].articleId == myID) {
+				if (data[i].articleId == myId) {
 					$('#articel-title').val(data[i].articleTitle);
 					console.log(data[i].articleTitle);
 					var content = data[i].articleContent;
@@ -32,7 +33,7 @@ $(function() {
 			data:{
 				articleTitle:title,
 				articelContent:content,
-				articleId:myID
+				articleId:myId
 
 			},
 			success:function() {

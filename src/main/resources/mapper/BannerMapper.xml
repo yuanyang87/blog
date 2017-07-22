@@ -46,7 +46,6 @@
         SELECT banner_id,banner_type,image_address
           FROM banner,image
             WHERE banner.banner_id = image.image_ref
-            LIMIT #{arg0},#{arg1}
     </select>
 
     <select id="getTotal" resultType="_integer">

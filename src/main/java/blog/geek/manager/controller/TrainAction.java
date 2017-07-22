@@ -57,4 +57,10 @@ public class TrainAction {
         return ResultUtil.successResult(trainPager);
     }
 
+    @RequestMapping(value = "/management/findTrain/{trainId}",method = RequestMethod.GET)
+    public Result findTrain(@PathVariable String trainId){
+        Train train = trainService.findTrainById(trainId);
+        return ResultUtil.successResult(train);
+    }
+
 }

@@ -64,4 +64,17 @@ public class Product {
     }
 
     //end getter and setter
+
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "productId='" + productId + '\'' +
+                ", productName='" + productName + '\'' +
+                ", productContent='" + productContent + '\'' +
+                ", productPrice='" + productPrice + '\'' +
+                ", productType='" + productType + '\'' +
+                ", productImg='" + productImg + '\'' +
+                '}';
+    }
 }

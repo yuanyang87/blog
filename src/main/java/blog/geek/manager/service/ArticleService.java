@@ -108,4 +108,12 @@ public class ArticleService {
     public List<Article> findArticlesByTime(String date) {
         return articleDao.findArticlesByTime(date);
     }
+
+    public Article findArticleById(String articleId) {
+        Article article = articleDao.findArticleById(articleId);
+        if (article == null){
+            throw new ErrorException("没有相应的文章");
+        }
+        return article;
+    }
 }

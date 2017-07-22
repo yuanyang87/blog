@@ -1,4 +1,5 @@
 var myID;
+console.log(10);
 $(function() {
 	/*生成id*/
 	
@@ -6,13 +7,14 @@ $(function() {
 
 	$('#submit').click(function() {
         myID = new Date().getTime();
+        console.log(myID);
 		var title = $("input[type='text']").val();
 		var content = $('#customized-buttonpane').html();
 		$.ajax({
 			type:"POST",
-			url:"/blog/management/insertcourse",
+			url:"/blog/management/insertCourse",
 			data:{
-				courseTitle:title,
+				courseName:title,
 				courseContent:content,
 				courseId:myID
 

@@ -64,4 +64,6 @@ public interface TrainDao {
     int getTotal();
 
     List<Train> findTrainByTime(String date);
+
+    Train findTrainById(String trainId);
 }

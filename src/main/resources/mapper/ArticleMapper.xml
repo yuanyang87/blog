@@ -50,6 +50,12 @@
             LIMIT #{arg0},#{arg1}
     </select>
 
+    <select id="findArticleById" parameterType="String" resultMap="article">
+        select article_id,article_title,article_Content,article_time,article_link
+          FROM article
+            WHERE article_id = #{arg0}
+    </select>
+
     <select id="findArticlesByKeyWord" resultMap="article">
         select article_id,article_title,article_Content,article_time,article_link
           FROM article

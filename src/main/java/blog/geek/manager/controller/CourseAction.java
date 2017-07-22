@@ -55,4 +55,11 @@ public class CourseAction {
         Pager<Course> coursePager = courseService.findAllCourses(pageIndex,pageSize);
         return ResultUtil.successResult(coursePager);
     }
+
+    @RequestMapping(value = "/management/findCourse/{courseId}",method = RequestMethod.GET)
+    public Result findCourse(@PathVariable String courseId){
+        Course course  = courseService.findCourseById(courseId);
+        return ResultUtil.successResult(course);
+    }
+
 }

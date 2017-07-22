@@ -128,4 +128,13 @@ public class ProductService {
         return productPager;
     }
 
+    public Product findProductById(String productId) {
+
+        Product product = productDao.findProductById(productId);
+        if (product == null){
+            throw new ErrorException("查找失败");
+        }
+        return product;
+
+    }
 }

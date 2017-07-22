@@ -64,4 +64,6 @@ public interface ArticleDao {
     int getTotal();
 
     List<Article> findArticlesByTime(String date);
+
+    Article findArticleById(String articleId);
 }

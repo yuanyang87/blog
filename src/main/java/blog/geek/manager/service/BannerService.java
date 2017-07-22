@@ -99,15 +99,14 @@ public class BannerService {
     /**
      * 获取所有的轮播图片
      * @return
-     * @param pageIndex
-     * @param pageSize
      */
-    public Pager<Banner> findAllBanners(int pageIndex, int pageSize){
-        Pager<Banner> bannerPager = new Pager<Banner>(pageIndex,pageSize,bannerDao.getTotal());    //轮播分页
+    public List<Banner> findAllBanners(){
+        List<Banner> banners = bannerDao.findAllBanners();    //轮播分页
 
-        List<Banner> banners = bannerDao.findAllBanners(bannerPager.getOffSet(),pageSize);   //查找结果并返回
+        if (banners == null || banners.size() == 0){
+            throw new ErrorException("出错啦");
+        }
 
-        bannerPager.setResult(banners);
-        return bannerPager;
+        return banners;
     }
 }

@@ -64,4 +64,6 @@ public interface CourseDao {
     int getTotal();
 
     List<Course> findCourseByTime(String date);
+
+    Course findCourseById(String courseId);
 }

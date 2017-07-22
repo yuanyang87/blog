@@ -14,6 +14,12 @@
 	<script type="text/javascript" src="../js/1.js"></script>
 	<script type="text/javascript" src="../js/ajax_pro.js"></script>
 
+	<script src="../assets/jquery.min.js"></script>
+	<script src="../assets/trumbowyg.js"></script>
+	<script src="../assets/plugins/base64/trumbowyg.base64.js"></script>
+	<script type="text/javascript"  src="../assets/plugins/upload/trumbowyg.upload.js"></script>
+	<link rel="stylesheet" href="../assets/design/css/trumbowyg.css">
+
 </head>
 <body>
 	<div class="header">
@@ -70,7 +76,64 @@
 				</tr>
 			    </tbody>
 			</table>
+			<table cellspacing="0" cellpadding="0" border="0" class="articel-list" id="article-list">
+				<tbody>
+				</tbody>
+			</table>
 			<div class="page"><div class="paging"></div></div>
+		</div>
+		<div class="main-content" id="editPro"  style="display: none">
+			<h1 class="content-header">添加产品</h1>
+
+			<hr>
+			<div class="articel-title">
+				<form class="form-horizontal" id="productform" method= "post" enctype ="multipart/form-data">
+					<div class="form-group">
+						<label class="col-sm-2 control-lable" style="text-align: right;">产品名</label>
+						<div class="col-sm-10">
+							<input type="text" name="productName" class="form-control" id="productName">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-lable" style="text-align: right;">产品内容</label>
+						<div class="col-sm-10">
+							<input type="text" name="productContent" class="form-control" id="productContent">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-lable" style="text-align: right;">产品价格</label>
+						<div class="col-sm-10">
+							<input type="text" name="productPrice" class="form-control" id="productPrice">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-lable" style="text-align: right;">产品类别</label>
+						<div class="col-sm-10">
+							<input type="text" name="productType" class="form-control" id="productType">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-lable" style="text-align: right;">产品图片</label>
+						<div class="col-sm-10">
+							<input id="file-1" type="file" multiple class="file" data-overwrite-initial="false" data-min-file-count="1" name="picture">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-lable" style="text-align: right;">是否在首页显示</label>
+						<div class="col-sm-10">
+							<select name="productKind" id="productKind">
+								<!-- <option value="0">请选择</option> -->
+								<option value="0">是</option>
+								<option value="1">否</option>
+							</select>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div style="margin-left: 18%">
+				<input type="button" class="btn btn-info" value="保存" id="submit">
+				<input type="button" class="btn btn-danger" value="取消">
+			</div>
 		</div>
 	</div>
 </body>

@@ -1,8 +1,8 @@
-var total,pageSize,curPage,totalPage;
+var total,pageSize,curPage,totalPage,myId;
 function getData(page,pageSize){
     $.ajax({
         type: 'GET',
-        url: "/blog/findAllArticles",
+        url:"/blog/findAllArticles",
         data: {
             'pageIndex':page,
             'pageSize':pageSize
@@ -23,14 +23,16 @@ function getData(page,pageSize){
             var data = data.data.result;//获取数据
             var li = "";
             for (var i = 0; i < data.length; i++) { //遍历json数据列
-                // li += "<li><a href='#'>"+array['id']+"</a><>";
-                li += '<tr><td class="post-title"><a href="editArt.html">'
+                console.log(data[i].articleId);
+                li += '<tr><td style="display: none" id="myId">'
+                    +data[i].articleId+
+                    '</td></td><td class="post-title"><a href="editArt.html">'
                     +data[i].articleTitle+
                     '</td><td>发布</td><td>'
                     +data[i].articleTime+
-                    '</td><td id="edit"><a href="editArt.html">编辑</a></td><td id="del"><input type="button" class="btn btn-danger" id="del" value="删除" onclick="del()"></td></tr>'	;
+                    '</td><td><a href="javascript:void(0)" id="edit">编辑</a></td><td id="del"><input type="button" class="btn btn-danger" id="del" value="删除"></td></tr>'	;
             };
-            $(".articel-list").html(li);
+            $("#articel-list").html(li);
         },
         complete:function(){ //生成分页条
             getPageBar();
@@ -78,50 +80,67 @@ function fun(){
         }
     });
 }
-
 $(function() {
-	var str = '';
-	/*$.ajax({
-		type:"GET",
-		url:"/blog/findAllArticles",
-		data:{
-			pageIndex:1,
-            pageSize:5
-		},
-		success:function(data) {
-			if (data.status==1) {
-				var data = data.data.result;
-				for (var i = 0; i < data.length; i++) {
-					str += '<tr><td class="post-title"><a href="editArt.html">'
-					+data[i].articleTitle+
-					'</td><td>发布</td><td>'
-					+data[i].articleTime+
-					'</td><td id="edit"><a href="editArt.html">编辑</a></td><td id="del"><input type="button" class="btn btn-danger" id="del" value="删除" onclick="del()"></td></tr>'	;		
-				}
-				//console.log(data[0]);
-				$('.articel-list').append(str);
-			}
-			
-			
-		},
-		error:function() {
-			console.log("can get data!");
-		}
-	});*/
-	
-})
-    function del(){
-	    console.log(myID);
-		$.ajax({
-			type:"DELETE",
-			url:"/blog/management/deleteArticle/" + myID ,
-			success:function() {
-				alert("删除成功！");
-				window.location.reload();
+    $(document).on('click','#del',function(){
+        myId = $(this).closest("tr").find('#myId').text();
+        console.log(myId);
+        $.ajax({
+            type:"DELETE",
+            url:"/blog/management/deleteArticle/"+myId,
+            success:function() {
+                alert("删除成功！");
+                window.location.reload();
 
-			},
-			error:function() {
-				alert("删除失败！");
-			}
-		})
-	}
+            },
+            error:function() {
+                alert("删除失败！");
+            }
+        })
+    });
+    $(document).on('click','#edit',function() {
+        myId = $(this).closest("tr").find('#myId').text();
+        $('#articel').hide();
+
+        $.ajax({
+            type:"GET",
+            url:"/blog/management/findArticle/"+myId,
+            success:function(data){
+                var data = data.data;
+                //console.log(data);
+                $('#articel-title').val(data.articleTitle);
+                //console.log(data.articleTitle);
+                var content = data.articleContent;
+                $('#customized-buttonpane').html(content);
+                //console.log(data.articleContent)
+            },
+            error:function() {
+                console.log('error');
+            }
+
+
+        });
+        $('#editArticel').show();
+    })
+    $('#submit').click(function() {
+        var title = $("input[type='text']").val();
+        var content = $('#customized-buttonpane').html();
+        $.ajax({
+            type:"POST",
+            url:"/blog/management/updateArticle",
+            data:{
+                articleTitle:title,
+                articelContent:content,
+                articleId:myId
+
+            },
+            success:function() {
+                alert("保存成功！");
+                console.log(title);
+            },
+            error:function() {
+                alert("保存失败！");
+            }
+        })
+    });
+})    
+    

@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 /**
  * 轮播图管理模块请求
  * @author yuanyang
@@ -63,9 +65,9 @@ public class BannerAction {
      * @return
      */
     @RequestMapping(value = "/management/findAllBanners",method = RequestMethod.GET)
-    public Result findAllBanners(int pageIndex,int pageSize){
-        Pager<Banner> bannerPager = bannerService.findAllBanners(pageIndex,pageSize);
-        return ResultUtil.successResult(bannerPager);
+    public Result findAllBanners(){
+        List<Banner> banners = bannerService.findAllBanners();
+        return ResultUtil.successResult(banners);
     }
 
 }

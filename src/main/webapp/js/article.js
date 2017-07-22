@@ -1,17 +1,15 @@
-var myID;
+var myID = new Date().getTime();
+console.log(myID);
 $(function() {
 	/*生成id*/
-	
-	
-
+    //var myID = new Date().getTime();
 	$('#submit').click(function() {
-        myID = new Date().getTime();
         console.log(myID);
 		var title = $("input[type='text']").val();
 		var content = $('#customized-buttonpane').html();
         console.log(content);
         $.ajax({
-			type:"post",
+			type:"POST",
 			url:"/blog/management/insertArticle",
 			data:{
 				articleTitle:title,
@@ -60,26 +58,5 @@ $(function() {
 			}
 		})*/
 	});
-	/*var EventUtil = {
-   
-	 // 添加事件监听 
-		 add: function(element, type, callback){
-		    
-		  if(element.addEventListener){
-		   element.addEventListener(type, callback, false);
-		  } else if(element.attachEvent){
-		   element.attachEvent('on' + type, callback);
-		  } else {
-		   element['on' + type] = callback;
-		  }
-		 }
-	}
-	var file = $('input[type="file"]');
-	EventUtil.add(file,"click",function() {
-		console.log(23);
-		var file = this.files[0];
-		console.log(file);
-		var data = new formData("picture",file);
-		data.append("imageRef",myID);
-	})*/
+
 })

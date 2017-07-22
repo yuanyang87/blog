@@ -38,7 +38,7 @@ public class ArticleAction {
         return ResultUtil.successResult(null);
     }
 
-    @RequestMapping(value = "/management/management/deleteArticle/{articleId}",method = RequestMethod.DELETE)
+    @RequestMapping(value = "/management/deleteArticle/{articleId}",method = RequestMethod.DELETE)
     public Result deleteArticle(@PathVariable String articleId){
         articleService.deleteArticle(articleId);
         return ResultUtil.successResult(null);
@@ -60,6 +60,12 @@ public class ArticleAction {
     public Result findAllArticles(int pageIndex, int pageSize){
         Pager<Article> articlePager = articleService.findAllArticles(pageIndex,pageSize);
         return ResultUtil.successResult(articlePager);
+    }
+
+    @RequestMapping(value = "/management/findArticle/{articleId}",method = RequestMethod.GET)
+    public Result findArticleById(@PathVariable String articleId){
+        Article article = articleService.findArticleById(articleId);
+        return ResultUtil.successResult(article);
     }
 
 }

@@ -98,4 +98,12 @@ public class CourseService {
     public List<Course> findCourseByTime(String date) {
         return courseDao.findCourseByTime(date);
     }
+
+    public Course findCourseById(String courseId) {
+        Course course = courseDao.findCourseById(courseId);
+        if (course == null){
+            throw new ErrorException("查找失败");
+        }
+        return course;
+    }
 }

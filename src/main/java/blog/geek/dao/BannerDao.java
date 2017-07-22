@@ -42,7 +42,7 @@ public interface BannerDao {
      * 后台获取所有的轮播图
      * @return
      */
-    List<Banner> findAllBanners(int offSet,int limit);
+    List<Banner> findAllBanners();
 
     /**
      * 获取总数目

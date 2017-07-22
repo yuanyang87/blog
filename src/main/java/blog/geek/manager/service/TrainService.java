@@ -110,4 +110,12 @@ public class TrainService {
         List<Train> trains = trainDao.findTrainByTime(date);
         return trains;
     }
+
+    public Train findTrainById(String trainId) {
+        Train train = trainDao.findTrainById(trainId);
+        if (train == null){
+            throw new ErrorException("查找失败");
+        }
+        return train;
+    }
 }

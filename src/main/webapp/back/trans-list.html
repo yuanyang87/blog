@@ -12,6 +12,12 @@
 	<script type="text/javascript" src="../js/back.js"></script>
 	<script type="text/javascript" src="../js/trans-list.js"></script>
 
+	<script src="../assets/jquery.min.js"></script>
+	<script src="../assets/trumbowyg.js"></script>
+	<script src="../assets/plugins/base64/trumbowyg.base64.js"></script>
+	<script type="text/javascript"  src="../assets/plugins/upload/trumbowyg.upload.js"></script>
+	<link rel="stylesheet" href="../assets/design/css/trumbowyg.css">
+
 </head>
 <body>
 	<div class="header">
@@ -63,15 +69,36 @@
 					<th>操作</th>
 					<th>操作</th>
 				</tr>
-				<tr>
-					<td class="post-title"><a href="trans.html">评分组件开发</td>
-					<td>发布</td>
-					<td>2017-06-06 09:04</td>
-					<td id="edit"><a href="trans.html">编辑</a></td>
-					<td id="del"><a href="">删除</a></td>
-				</tr>
 			    </tbody>
 			</table>
+			<table cellspacing="0" cellpadding="0" border="0" class="articel-list" id="article-list">
+				<tbody>
+				</tbody>
+			</table>
+			<div class="page"><div class="paging"></div></div>
+		</div>
+		<div class="main-content" id="editArticel" style="display: none;">
+			<h1 class="content-header">文章编辑
+			</h1>
+
+			<hr>
+			<div class="articel-title">
+				<label>标题</label>
+				<input type="text" class="form-control" id="articel-title">
+				<p style="margin-top: 2%; font-weight: 700;">内容</p>
+			</div>
+			<div id="odiv" style="display:none;position:absolute;z-index:100;">
+				<img src="../assets/pic/sx.png" title="缩小" border="0" alt="缩小" onclick="sub(-1);"/>
+				<img src="../assets/pic/fd.png" title="放大" border="0" alt="放大" onclick="sub(1)"/>
+				<img src="../assets/pic/cz.png" title="重置" border="0" alt="重置" onclick="sub(0)"/>
+				<img src="../assets/pic/sc.png" title="删除" border="0" alt="删除" onclick="del();odiv.style.display='none';"/>
+			</div>
+			<div onmousedown="show_element(event)" style="clear:both" id="customized-buttonpane" class="editor"></div>
+			<div style="margin-left: 2%">
+				<input type="button" class="btn btn-info" value="保存" id="submit">
+				<input type="button" class="btn btn-danger" value="取消">
+			</div>
+
 		</div>
 	</div>
 </body>

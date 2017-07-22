@@ -68,6 +68,13 @@
             LIMIT #{arg0},#{arg1}
     </select>
 
+    <select id="findProductById" resultMap="product" parameterType="String">
+        SELECT product_id,product_name,product_type,product_content,product_price,image_address
+          FROM product,image
+            WHERE image.image_ref = product.product_id
+            AND productId = #{arg0}
+    </select>
+
     <select id="findProductByType" resultMap="product" parameterType="String">
         SELECT product_id,product_name,product_type,product_content,product_price,image_address
           FROM product,image

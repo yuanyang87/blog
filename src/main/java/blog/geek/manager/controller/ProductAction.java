@@ -6,10 +6,7 @@ import blog.geek.manager.service.ProductService;
 import blog.geek.utils.Result;
 import blog.geek.utils.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -25,7 +22,9 @@ public class ProductAction {
 
     @RequestMapping(value = "/management/insertProduct",method = RequestMethod.POST)
     public Result insertProduct(Product product, MultipartFile picture){
+        System.out.println(product);
         productService.insertProduct(product,picture);
+        System.out.println(product);
         return ResultUtil.successResult(null);
     }
 
@@ -45,6 +44,12 @@ public class ProductAction {
     public Result findAllProducts(int pageIndex,int pageSize){
         Pager<Product> productPager = productService.findAllProducts(pageIndex,pageSize);
         return ResultUtil.successResult(productPager);
+    }
+
+    @RequestMapping(value = "/findProduct/{productId}",method = RequestMethod.GET)
+    public Result findProduct(@PathVariable String productId){
+        Product product = productService.findProductById(productId);
+        return ResultUtil.successResult(product);
     }
 
     @RequestMapping(value = "/findProductByType/{productType}",method = RequestMethod.GET)

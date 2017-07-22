@@ -44,10 +44,14 @@
 
     <select id="findAllTrains" resultMap="train" parameterType="_integer">
         SELECT train_id,train_name,train_time,train_content,train_link
-          FROM image i
-            INNER JOIN train tr
-              WHERE tr.train_id = i.image_ref
+          FROM train
               LIMIT #{arg0},#{arg1}
+    </select>
+
+    <select id="findTrainById" parameterType="String" resultMap="train">
+        SELECT train_id,train_name,train_time,train_content,train_link
+          FROM train
+              WHERE train_id = #{arg0}
     </select>
 
     <select id="findTrainsByKeyWord" resultMap="train">

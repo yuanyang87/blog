@@ -1,4 +1,4 @@
-var total,pageSize,curPage,totalPage;
+var tatal,pageSize,curPage,totalPage;
 function getData(page,pageSize){
         $.ajax({ 
             type: 'GET', 
@@ -24,7 +24,9 @@ function getData(page,pageSize){
                 var li = ""; 
                 for (var i = 0; i < data.length; i++) { //遍历json数据列 
                     // li += "<li><a href='#'>"+array['id']+"</a><>";
-                    li += '<tr><td class="post-title"><a href="product.html">'
+                    li += '<tr><td style="display: none" id="myId">'
+                           +data[i].productId+
+                           '</td><td class="post-title"><a href="javascript:void(0)">'
                             +data[i].productName+
                             '</a></td><td>'
                             +data[i].productType+
@@ -34,9 +36,9 @@ function getData(page,pageSize){
                             +data[i].productImg+
                             '" width="50" height="50"></td><td>'
                             +data[i].productPrice+
-                            '</td><td>是</td><td><a href="product.html">编辑</a></td><td id="del"><input type="button" class="btn btn-danger" id="del" value="删除" onclick="del()"></td></tr>';
+                            '</td><td>是</td><td><a href="javascript:void(0)" id="edit">编辑</a></td><td id="del"><input type="button" class="btn btn-danger" id="del" value="删除"></td></tr>';
                 }; 
-                $(".articel-list").html(li);
+                $("#article-list").html(li);
             }, 
             complete:function(){ //生成分页条 
                 getPageBar();
@@ -84,3 +86,64 @@ function getData(page,pageSize){
             } 
         });
     }
+$(function() {
+    $(document).on('click','#del',function(){
+        myId = $(this).closest("tr").find('#myId').text();
+        console.log(myId);
+        $.ajax({
+            type:"DELETE",
+            url:"/blog/management/deleteProduct/"+myId,
+            success:function() {
+                alert("删除成功！");
+                window.location.reload();
+
+            },
+            error:function() {
+                alert("删除失败！");
+            }
+        })
+    });
+    $(document).on('click','#edit',function() {
+        myId = $(this).closest("tr").find('#myId').text();
+        $('#product').hide();
+
+        $.ajax({
+            type:"GET",
+            url:"/blog/management/findProduct/"+myId,
+            success:function(data){
+                var data = data.data;
+                $('#productName').val(data.productName);
+                $('#productContent').val(data.productContent);
+                $('#productPrice').val(data.productPrice);
+                $('#productType').val(data.productType);
+            },
+            error:function() {
+                console.log('error');
+            }
+
+
+        });
+        $('#editPro').show();
+    })
+    $('#submit').click(function() {
+        var title = $("input[type='text']").val();
+        var content = $('#customized-buttonpane').html();
+        var data = new FormData($('#productform')[0]);
+        $.ajax({
+            type:"POST",
+            url:"/blog/management/updateProduct",
+            data:data,
+            async:false,
+            cache:false,
+            contentType:false,
+            processData:false,
+            success:function() {
+                alert("保存成功！");
+                console.log(title);
+            },
+            error:function() {
+                alert("保存失败！");
+            }
+        })
+    });
+})

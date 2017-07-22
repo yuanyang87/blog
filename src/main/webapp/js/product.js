@@ -1,38 +1,28 @@
 
 $(function() {
-	var productKind;	
-	var productImg;
+	var myId = new Date().getTime();
 	$('input[type="file"]').change(function() {
-		var file = this.files[0];
-		console.log(file);
-		productImg = file.name
+        var reader = new FileReader();
+        reader.readAsDataURL(this.files[0]);
 	});
-	$('#productKind').change(function() {
-		productKind = $('#productKind').val();
+	/*$('#productKind').change(function() {
+		var productKind = $('#productKind').val();
 		
-	})
+	})*/
 	$('#submit').click(function(){
 		/*var params = $('#productform').submit();*/
 		myID = new Date().getTime();
-		var productType = $('#productType').val();
-		var productPrice = $('#productPrice').val();
-		var productContent = $('#productContent').val();
-		var productIdName = $('#productIdName').val();
-		console.log(productContent);
-		console.log(productType);
-		console.log(productPrice);
+
+		var data = new FormData($('#productform')[0]);
 		$.ajax({
 
 			type:"POST",
-			url:" /management/insertProduct",
-			data:{
-				productKind:productKind,
-				productType:productType,
-				productPrice:productPrice,
-				productContent:productContent,
-				productIdName:productIdName,
-				productImg:productImg
-			},
+			url:" /blog/management/insertProduct",
+			data:data,
+            async:false,
+            cache:false,
+            contentType:false,
+            processData:false,
 			success:function() {
 				alert("保存成功！");
 			},

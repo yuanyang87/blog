@@ -56,4 +56,6 @@ public interface ProductDao {
      * @return
      */
     int getTotal();
+
+    Product findProductById(String productId);
 }
