@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="blog.geek.dao.CoachDao">
+
+    <resultMap id="coach" type="coach">
+        <id column="coach_id" javaType="String" jdbcType="VARCHAR" property="coachId"/>
+        <result column="coach_name" javaType="String" jdbcType="VARCHAR" property="coachName"/>
+        <result column="coach_introduction" javaType="String" jdbcType="VARCHAR" property="coachIntroduction"/>
+        <result column="image_path" javaType="String" jdbcType="VARCHAR" property="coachImg"/>
+    </resultMap>
+
+    <insert id="insertCoach">
+        INSERT INTO
+        coach(coach_id,coach_name,coach_introduction)
+        VALUES
+        (#{coach.coachId},#{coach.coachName},#{coach.coachIntroduction});
+
+        INSERT INTO
+        image(image_id,image_name,image_address,image_ref)
+        VALUES
+        (#{image.imageId},#{image.imageName},#{image.imageAddress},#{image.imageRef});
+    </insert>
+
+    <delete id="deleteCoach" parameterType="String">
+        DELETE FROM coach WHERE coach_id = #{arg0};
+        DELETE FROM image WHERE image_ref = #{arg0}
+    </delete>
+
+    <update id="updateCoach">
+        UPDATE coach
+        <set>
+            <if test="coach.coachName != null and coach.coachName != ''">
+                coach_name = #{coach.coachName},
+            </if>
+            <if test="coach.coachIntroduction != null and coach.coachIntroduction != ''">
+                coach_introduction = #{coach.coachIntroduction}
+            </if>
+        </set>
+        WHERE coach_id = #{coach.coachId};
+
+        <if test="image.imageName != null and image.imageName != ''">
+            UPDATE image
+            <set>
+                <if test="image.imageName != null and image.imageName != ''">
+                    image_name = #{image.imageName},
+                </if>
+                <if test="image.imageAddress != null and image.imageAddress != ''">
+                    image_address = #{image.imageAddress}
+                </if>
+            </set>
+            WHERE image_ref = #{coach.coachId}
+        </if>
+    </update>
+
+    <select id="selectAllCoaches" resultMap="coach" parameterType="_integer">
+        SELECT coach_id,coach_name,coach_introduction,image_address
+        FROM coach,image
+        WHERE image.image_ref = coach.coach_id
+        LIMIT #{arg0},#{arg1}
+    </select>
+
+    <select id="getTotal" resultType="_integer">
+        SELECT COUNT(coach_id) FROM coach
+    </select>
+
+</mapper>

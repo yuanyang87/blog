@@ -76,12 +76,13 @@ public class ProductService {
             productDao.updateProduct(product,new Image());
             return;
         }
+        List<String> imagePath = imageDao.getImagePath(product.getProductId());
         Image image = new Image(RandomStringUtil.unrepeatableString(8),
                 picture.getOriginalFilename(),product.getProductId());
 
         fileUtil.saveImage(picture,Product.class.getSimpleName(),product.getProductId());
 
-        List<String> imagePath = imageDao.getImagePath(product.getProductId());
+        image.setImageAddress(fileUtil.getVirtualPath());
 
         if (productDao.updateProduct(product,image) != 1){
             fileUtil.deleteImage(fileUtil.getRealPath());

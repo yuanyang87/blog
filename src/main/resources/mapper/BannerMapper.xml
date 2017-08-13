@@ -5,12 +5,11 @@
 
     <resultMap id="banner" type="banner">
         <id column="banner_id" javaType="String" jdbcType="VARCHAR" property="bannerId"/>
-        <result column="banner_type" javaType="String" jdbcType="VARCHAR" property="bannerType"/>
         <result column="image_address" javaType="String" jdbcType="VARCHAR" property="bannerImg"/>
     </resultMap>
 
     <insert id="insertBannerImage">
-        INSERT INTO banner(banner_id,banner_type) VALUES (#{banner.bannerId},#{banner.bannerType});
+        INSERT INTO banner(banner_id) VALUES (#{banner.bannerId});
         INSERT INTO image(image_id,image_name,image_address,image_ref) VALUES (#{image.imageId},#{image.imageName},#{image.imageAddress},#{image.imageRef});
     </insert>
 
@@ -20,32 +19,29 @@
     </delete>
 
     <update id="updateBanner">
-        UPDATE banner
+        UPDATE image
         <set>
-            <if test="banner.bannerType != null and banner.bannerType != ''">
-                banner_type = #{banner.bannerType}
+            <if test="image.imageName != null and image.imageName != ''">
+                image_name = #{image.imageName},
+            </if>
+            <if test="image.imageAddress != null and image.imageAddress != ''">
+                image_address = #{image.imageAddress},
             </if>
         </set>
-        WHERE banner_id = #{banner.bannerId};
-
-        <if test="image.imageName != null and image.imageName != ''">
-            UPDATE image
-            <set>
-                <if test="image.imageName != null and image.imageName != ''">
-                    image_name = #{image.imageName},
-                </if>
-                <if test="image.imageAddress != null and image.imageAddress != ''">
-                    image_address = #{image.imageAddress},
-                </if>
-            </set>
-            WHERE image_ref = #{banner.bannerId}
-        </if>
+        WHERE image_ref = #{banner.bannerId}
     </update>
 
     <select id="findAllBanners" resultMap="banner" parameterType="_integer">
-        SELECT banner_id,banner_type,image_address
+        SELECT banner_id,image_address
           FROM banner,image
             WHERE banner.banner_id = image.image_ref
+    </select>
+
+    <select id="findBannerByType" resultMap="banner" parameterType="String">
+        SELECT banner_id,image_address,banner_type
+        FROM banner,image
+        WHERE banner.banner_id = image.image_ref
+        AND banner_type = #{arg0}
     </select>
 
     <select id="getTotal" resultType="_integer">

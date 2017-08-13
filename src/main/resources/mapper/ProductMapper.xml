@@ -10,13 +10,14 @@
         <result column="product_content" javaType="String" jdbcType="VARCHAR" property="productContent"/>
         <result column="product_price" javaType="String" jdbcType="VARCHAR" property="productPrice"/>
         <result column="image_address" javaType="String" jdbcType="VARCHAR" property="productImg"/>
+        <result column="product_kind" javaType="integer" jdbcType="INTEGER" property="productKind"/>
     </resultMap>
 
     <insert id="insertProduct">
         INSERT INTO
-          product(product_id,product_name,product_type,product_content,product_price)
+          product(product_id,product_name,product_type,product_content,product_price,product_kind)
         VALUES
-          (#{product.productId},#{product.productName},#{product.productType},#{product.productContent},#{product.productPrice});
+          (#{product.productId},#{product.productName},#{product.productType},#{product.productContent},#{product.productPrice},#{product.productKind});
 
         INSERT INTO
           image(image_id,image_name,image_address,image_ref)
@@ -42,7 +43,10 @@
                 product_content = #{product.productContent},
             </if>
             <if test="product.productPrice != null and product.productPrice != ''">
-                product_price = #{product.productPrice}
+                product_price = #{product.productPrice},
+            </if>
+            <if test="product.productKind != null and product.productKind != ''">
+                product_kind = #{product.productKind}
             </if>
         </set>
         WHERE product_id = #{product.productId};
@@ -62,21 +66,21 @@
     </update>
 
     <select id="findAllProducts" resultMap="product" parameterType="_integer">
-        SELECT product_id,product_name,product_type,product_content,product_price,image_address
+        SELECT product_id,product_name,product_type,product_content,product_price,product_kind,image_address
           FROM product,image
             WHERE image.image_ref = product.product_id
             LIMIT #{arg0},#{arg1}
     </select>
 
     <select id="findProductById" resultMap="product" parameterType="String">
-        SELECT product_id,product_name,product_type,product_content,product_price,image_address
+        SELECT product_id,product_name,product_type,product_content,product_price,product_kind,image_address
           FROM product,image
             WHERE image.image_ref = product.product_id
-            AND productId = #{arg0}
+            AND product_id = #{arg0}
     </select>
 
     <select id="findProductByType" resultMap="product" parameterType="String">
-        SELECT product_id,product_name,product_type,product_content,product_price,image_address
+        SELECT product_id,product_name,product_type,product_content,product_price,product_kind,image_address
           FROM product,image
             WHERE image.image_ref = product.product_id
               AND product_type = #{arg0}

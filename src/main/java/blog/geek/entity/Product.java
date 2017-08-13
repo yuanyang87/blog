@@ -13,6 +13,7 @@ public class Product {
     private String productPrice;    //产品价格
     private String productType; //产品类型
     private String productImg; //产品图片
+    private int productKind;    //是否在首页显示 0,是.1不是
 
     //start getter and setter
     public String getProductId() {
@@ -63,8 +64,15 @@ public class Product {
         this.productImg = productImg;
     }
 
-    //end getter and setter
+    public int getProductKind() {
+        return productKind;
+    }
 
+    public void setProductKind(int productKind) {
+        this.productKind = productKind;
+    }
+
+    //end getter and setter
 
     @Override
     public String toString() {
@@ -75,6 +83,7 @@ public class Product {
                 ", productPrice='" + productPrice + '\'' +
                 ", productType='" + productType + '\'' +
                 ", productImg='" + productImg + '\'' +
+                ", productKind=" + productKind +
                 '}';
     }
 }

@@ -45,6 +45,13 @@ public interface BannerDao {
     List<Banner> findAllBanners();
 
     /**
+     * 根据类型获取轮播图片
+     * @param bannerType
+     * @return
+     */
+    List<Banner> findBannerByType(String bannerType);
+
+    /**
      * 获取总数目
      * @return
      */

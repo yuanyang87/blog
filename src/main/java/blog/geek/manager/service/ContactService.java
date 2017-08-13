@@ -70,6 +70,9 @@ public class ContactService {
 
         List<Contact> contacts = contactDao.findAllContacts(contactPager.getOffSet(),pageSize);
 
+        if (contacts == null || contacts.size() == 0){
+            throw new ErrorException("暂时没有信息");
+        }
         contactPager.setResult(contacts);
 
         return contactPager;

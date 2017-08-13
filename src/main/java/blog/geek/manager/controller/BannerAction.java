@@ -1,7 +1,6 @@
 package blog.geek.manager.controller;
 
 import blog.geek.entity.Banner;
-import blog.geek.entity.Pager;
 import blog.geek.manager.service.BannerService;
 import blog.geek.utils.Result;
 import blog.geek.utils.ResultUtil;
@@ -64,9 +63,19 @@ public class BannerAction {
      * 后台获取所有的轮播图
      * @return
      */
-    @RequestMapping(value = "/management/findAllBanners",method = RequestMethod.GET)
+    @RequestMapping(value = "/findAllBanners",method = RequestMethod.GET)
     public Result findAllBanners(){
         List<Banner> banners = bannerService.findAllBanners();
+        return ResultUtil.successResult(banners);
+    }
+
+    /**
+     * 后台获取所有的轮播图
+     * @return
+     */
+    @RequestMapping(value = "/findBannerByType",method = RequestMethod.GET)
+    public Result findBannerByType(String bannerType){
+        List<Banner> banners = bannerService.findBannerByType(bannerType);
         return ResultUtil.successResult(banners);
     }
 

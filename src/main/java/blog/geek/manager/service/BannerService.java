@@ -78,15 +78,16 @@ public class BannerService {
      */
     public void updateBanner(Banner banner,MultipartFile picture){
         if (picture == null){
-            bannerDao.updateBanner(banner,new Image());
-            return;
+            throw new ErrorException("没有图片");
         }
         Image image = new Image(RandomStringUtil.repeatableString(8),
                 picture.getOriginalFilename(),banner.getBannerId());
 
+        List<String> imagePath = imageDao.getImagePath(banner.getBannerId());
+
         fileUtil.saveImage(picture,Banner.class.getSimpleName(),banner.getBannerId());
 
-        List<String> imagePath = imageDao.getImagePath(banner.getBannerId());
+        image.setImageAddress(fileUtil.getVirtualPath());
 
         if (bannerDao.updateBanner(banner,image) != 1){
             fileUtil.deleteImage(fileUtil.getRealPath());
@@ -101,12 +102,22 @@ public class BannerService {
      * @return
      */
     public List<Banner> findAllBanners(){
-        List<Banner> banners = bannerDao.findAllBanners();    //轮播分页
-
+        List<Banner> banners = bannerDao.findAllBanners();
         if (banners == null || banners.size() == 0){
             throw new ErrorException("出错啦");
         }
+        return banners;
+    }
 
+    /**
+     * 获取相关轮播图片轮播图片
+     * @return
+     */
+    public List<Banner> findBannerByType(String bannerType){
+        List<Banner> banners = bannerDao.findBannerByType(bannerType);   //轮播分页
+        if (banners == null || banners.size() == 0){
+            throw new ErrorException("出错啦");
+        }
         return banners;
     }
 }

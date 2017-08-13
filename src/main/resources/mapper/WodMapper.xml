@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="blog.geek.dao.WodDao">
+    <resultMap id="wod" type="wod">
+        <id column="wod_id" javaType="String" jdbcType="VARCHAR" property="wodId"/>
+        <result column="wod_title" javaType="String" jdbcType="VARCHAR" property="wodTitle"/>
+        <result column="wod_date" javaType="String" jdbcType="VARCHAR" property="wodDate"/>
+        <result column="wod_info" javaType="String" jdbcType="VARCHAR" property="wodInfo"/>
+        <result column="image_path" javaType="String" jdbcType="VARCHAR" property="wodImg"/>
+    </resultMap>
+
+    <insert id="insertWod">
+        INSERT INTO
+        wod(wod_id,wod_title,wod_date,wod_info)
+        VALUES
+        (#{wod.wodId},#{wod.wodTitle},#{wod.wodDate},#{wod.wodInfo});
+
+        INSERT INTO
+        image(image_id,image_name,image_address,image_ref)
+        VALUES
+        (#{image.imageId},#{image.imageName},#{image.imageAddress},#{image.imageRef});
+    </insert>
+
+    <delete id="deleteWod" parameterType="String">
+        DELETE FROM wod WHERE wod_id = #{arg0};
+        DELETE FROM image WHERE image_ref = #{arg0}
+    </delete>
+
+    <update id="updateWod">
+        UPDATE wod
+        <set>
+            <if test="wod.wodTitle != null and wod.wodTitle != ''">
+                wod_title = #{wod.wodTitle},
+            </if>
+            <if test="wod.wodDate != null and wod.wodDate != ''">
+                wod_date = #{wod.wodDate},
+            </if>
+            <if test="wod.wodInfo != null and wod.wodInfo != ''">
+                wod_info = #{wod.wodInfo}
+            </if>
+        </set>
+        WHERE wod_id = #{wod.wodId};
+
+        <if test="image.imageName != null and image.imageName != ''">
+            UPDATE image
+            <set>
+                <if test="image.imageName != null and image.imageName != ''">
+                    image_name = #{image.imageName},
+                </if>
+                <if test="image.imageAddress != null and image.imageAddress != ''">
+                    image_address = #{image.imageAddress}
+                </if>
+            </set>
+            WHERE image_ref = #{wod.wodId}
+        </if>
+    </update>
+
+    <select id="selectAllWod" resultMap="wod" parameterType="_integer">
+        SELECT wod_id,wod_title,wod_date,wod_info,image_address
+        FROM wod,image
+        WHERE image.image_ref = wod.wod_id
+        LIMIT #{arg0},#{arg1}
+    </select>
+
+    <select id="getTotal" resultType="_integer">
+        SELECT COUNT(wod_id) FROM wod
+    </select>
+</mapper>

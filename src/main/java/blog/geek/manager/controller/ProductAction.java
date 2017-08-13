@@ -22,9 +22,7 @@ public class ProductAction {
 
     @RequestMapping(value = "/management/insertProduct",method = RequestMethod.POST)
     public Result insertProduct(Product product, MultipartFile picture){
-        System.out.println(product);
         productService.insertProduct(product,picture);
-        System.out.println(product);
         return ResultUtil.successResult(null);
     }
 

@@ -9,6 +9,7 @@ public class Banner {
 
     private String bannerId;    //轮播图编号
     private String bannerImg;   //轮播图地址
+    private String bannerType;  //轮播类型
 
     //start getter and setter
     public String getBannerId() {
@@ -25,6 +26,14 @@ public class Banner {
 
     public void setBannerImg(String bannerImg) {
         this.bannerImg = bannerImg;
+    }
+
+    public String getBannerType() {
+        return bannerType;
+    }
+
+    public void setBannerType(String bannerType) {
+        this.bannerType = bannerType;
     }
 
     //end getter and setter
