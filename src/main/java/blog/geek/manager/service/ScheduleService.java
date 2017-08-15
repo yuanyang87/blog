@@ -1,11 +1,14 @@
 package blog.geek.manager.service;
 
+import blog.geek.dao.ImageDao;
 import blog.geek.dao.ScheduleDao;
+import blog.geek.entity.Image;
 import blog.geek.entity.Schedule;
 import blog.geek.exception.ErrorException;
-import blog.geek.utils.RandomStringUtil;
+import blog.geek.utils.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -20,72 +23,49 @@ public class ScheduleService {
     @Autowired
     private ScheduleDao scheduleDao;
 
-    /**
-     * 批量插入课程表
-     * @param schedules
-     */
-    public void insertSchedules(List<Schedule> schedules){
-        int size = schedules.size();
-        if (scheduleDao.insertSchedules(schedules) != size)
-            throw new ErrorException("课程表添加操作失败");
-    }
+    @Autowired
+    private ImageDao imageDao;
 
-    /**
-     * 插入单个课表
-     * @param schedule
-     */
-    public void insertSchedule(Schedule schedule){
-        schedule.setScheduleId(RandomStringUtil.repeatableString(8));
-        if (scheduleDao.insertSchedule(schedule) != 1)
-            throw new ErrorException("课程表添加操作失败");
-    }
-
-    /**
-     * 批量删除课程表
-     * @param scheduleIds
-     */
-    public void deleteSchedules(List<String> scheduleIds){
-        int size = scheduleIds.size();
-        if (scheduleDao.deleteSchedules(scheduleIds) != size)
-            throw new ErrorException("课程表删除操作失败");
-    }
-
-    /**
-     * 删除单个课表
-     * @param scheduleId
-     */
-    public void deleteSchedule(String scheduleId){
-        if (scheduleDao.deleteSchedule(scheduleId) != 1)
-            throw new ErrorException("课程表删除操作失败");
-    }
-
-    /**
-     * 批量更新
-     * @param schedules
-     */
-    public void updateSchedules(List<Schedule> schedules){
-        //int size = schedules.size(); 由于执行的是多条sql,每条sql都返回的1,所以最后返回1
-        //if (scheduleDao.updateSchedules(schedules) != size)
-        if (scheduleDao.updateSchedules(schedules) != 1)
-            throw new ErrorException("课程表更新操作失败");
-    }
+    @Autowired
+    private FileUtil fileUtil;
 
     /**
      * 更新单个课表
      * @param schedule
      */
-    public void updateSchedule(Schedule schedule){
-        if(scheduleDao.updateSchedule(schedule) != 1)
-            throw new ErrorException("课程表更新操作失败");
+    public void updateSchedule(Schedule schedule,MultipartFile picture){
+        if (picture == null){
+            scheduleDao.updateSchedule(schedule,new Image());
+            return;
+        }
+        //获取之前的图片地址
+        List<String> imagePath = imageDao.getImagePath(schedule.getScheduleId());
+        //创建新图片
+        Image image = new Image(null, picture.getOriginalFilename(),schedule.getScheduleId());
+        //存放图片
+        fileUtil.saveImage(picture,Process.class.getSimpleName(),schedule.getScheduleId());
+        //设置图片地址
+        image.setImageAddress(fileUtil.getVirtualPath());
+        //更新教练
+        if (scheduleDao.updateSchedule(schedule,image) != 1){
+            //更新失败则把新添加的图片删除,抛出异常
+            fileUtil.deleteImage(fileUtil.getRealPath());
+            throw new ErrorException("数据库出错啦,请重新操作");
+        }
+        //更新成功,删除之前的图片
+        fileUtil.deleteImage(imagePath.get(0));
     }
 
     /**
-     * 查找所有的课程表
-     * @return
+     * 查找课表
+     * @param scheduleType
      */
-    public List<Schedule> findAllSchedules(){
-        List<Schedule> schedules = scheduleDao.findAllSchedules();
-        return schedules;
+    public Schedule findScheduleByType(String scheduleType){
+        Schedule schedule = scheduleDao.findScheduleByType(scheduleType);
+        if (schedule == null){
+            throw new ErrorException("没有课表");
+        }
+        return schedule;
     }
 
 }

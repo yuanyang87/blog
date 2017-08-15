@@ -46,4 +46,13 @@ public interface WodDao {
      * @return
      */
     int getTotal();
+
+    /**
+     * 查找模块
+     * @param offSet
+     * @param limit
+     * @param time
+     * @return
+     */
+    List<Wod> selectWodByTime(int offSet,int limit,String time);
 }

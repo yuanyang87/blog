@@ -86,4 +86,15 @@ public class WodService {
         return coachPager;
     }
 
+    public Pager<Wod> selectWodByTime(int pageIndex, int pageSize,String time){
+        Pager<Wod> coachPager = new Pager<Wod>(pageIndex,pageSize,wodDao.getTotal());
+
+        List<Wod> wods = wodDao.selectWodByTime(coachPager.getOffSet(),pageSize,time);
+        if (wods == null || wods.size() == 0){
+            throw new ErrorException("暂时没有教练");
+        }
+        coachPager.setResult(wods);
+        return coachPager;
+    }
+
 }

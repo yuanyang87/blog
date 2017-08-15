@@ -4,82 +4,39 @@
 <mapper namespace="blog.geek.dao.ScheduleDao">
     <resultMap id="schedule" type="schedule">
         <id column="schedule_id" javaType="String" jdbcType="VARCHAR" property="scheduleId"/>
-        <result column="schedule_name" javaType="String" jdbcType="VARCHAR" property="scheduleName"/>
-        <result column="schedule_content" javaType="String" jdbcType="VARCHAR" property="scheduleContent"/>
-        <result column="schedule_weekday" javaType="String" jdbcType="VARCHAR" property="scheduleWeekday"/>
-        <result column="schedule_time" javaType="String" jdbcType="VARCHAR" property="scheduleTime"/>
+        <result column="schedule_type" javaType="String" jdbcType="VARCHAR" property="scheduleType"/>
+        <result column="image_address" javaType="String" jdbcType="VARCHAR" property="scheduleImg"/>
     </resultMap>
 
-    <insert id="insertSchedules" parameterType="java.util.List">
-        INSERT INTO
-          schedule(schedule_id,schedule_name,schedule_content,schedule_weekday,schedule_time)
-        VALUES
-        <foreach collection="schedules" separator="," item="s">
-            (#{s.scheduleId},#{s.scheduleName},#{s.scheduleContent},#{s.scheduleWeekday},#{s.scheduleTime})
-        </foreach>
-    </insert>
-
-    <insert id="insertSchedule" parameterType="schedule">
-        INSERT INTO
-          schedule(schedule_id,schedule_name,schedule_content,schedule_weekday,schedule_time)
-        VALUES
-          (#{scheduleId},#{scheduleName},#{scheduleContent},#{scheduleWeekday},#{scheduleTime})
-    </insert>
-
-    <delete id="deleteSchedules" parameterType="String">
-        DELETE FROM schedule WHERE schedule_id IN
-        <foreach collection="scheduleIds" open="(" separator="," close=")" item="id">
-            #{id}
-        </foreach>
-    </delete>
-
-    <delete id="deleteSchedule" parameterType="String">
-        DELETE FROM schedule WHERE schedule_id = #{arg0}
-    </delete>
-
-    <update id="updateSchedules" parameterType="java.util.List">
-        <foreach collection="schedules" item="s" separator=";">
-            UPDATE schedule
-            <set>
-                <if test="s.scheduleName != null and s.scheduleName != ''">
-                    schedule_name = #{s.scheduleName},
-                </if>
-                <if test="s.scheduleContent != null and s.scheduleContent != ''">
-                    schedule_content = #{s.scheduleContent},
-                </if>
-                <if test="s.scheduleWeekday != null and s.scheduleWeekday != ''">
-                    schedule_weekday = #{s.scheduleWeekday},
-                </if>
-                <if test="s.scheduleTime != null and s.scheduleTime != ''">
-                    schedule_time = #{s.scheduleTime}
-                </if>
-            </set>
-            WHERE schedule_id = #{s.scheduleId}
-        </foreach>
-    </update>
-
-    <update id="updateSchedule" parameterType="schedule">
+    <update id="updateSchedule">
         UPDATE schedule
         <set>
-            <if test="scheduleName != null and scheduleName != ''">
-                schedule_name = #{scheduleName},
+            <if test="schedule.scheduleType != null and schedule.scheduleType != ''">
+                schedule_type = #{schedule.scheduleType}
             </if>
-            <if test="scheduleContent != null and scheduleContent != ''">
-                schedule_content = #{scheduleContent},
-            </if>
-            <if test="scheduleWeekday != null and scheduleWeekday != ''">
-                schedule_weekday = #{scheduleWeekday},
-            </if>
-            <if test="scheduleTime != null and scheduleTime != ''">
-                schedule_time = #{scheduleTime}
-            </if>
+
         </set>
-        WHERE schedule_id = #{scheduleId}
+        WHERE schedule_id = #{schedule.scheduleId};
+
+        <if test="image.imageName != null and image.imageName != ''">
+            UPDATE image
+            <set>
+                <if test="image.imageName != null and image.imageName != ''">
+                    image_name = #{image.imageName},
+                </if>
+                <if test="image.imageAddress != null and image.imageAddress != ''">
+                    image_address = #{image.imageAddress}
+                </if>
+            </set>
+            WHERE image_ref = #{schedule.scheduleId}
+        </if>
     </update>
 
-    <select id="findAllSchedules" resultMap="schedule">
-        SELECT schedule_id,schedule_name,schedule_content,schedule_weekday,schedule_time
-        FROM schedule
+    <select id="findScheduleByType" resultMap="schedule" parameterType="String">
+        SELECT schedule_id,schedule_type,image_address
+        FROM schedule,image
+        WHERE image.image_ref = schedule.schedule_id
+        AND schedule_type = #{arg0}
     </select>
 
 </mapper>

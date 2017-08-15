@@ -3,17 +3,23 @@ package blog.geek.entity;
 /**
  * 健身课程表
  * @author yuanyang
- * @version 1.0
+ * @version 2.0
  */
 public class Schedule {
 
     private String scheduleId;  //编号
-    private String scheduleName;    //课程名称
-    private String scheduleContent; //课程内容
-    private String scheduleWeekday; //周几
-    private String scheduleTime;    //时间段
+    private String scheduleImg; //图片
+    private String scheduleType;    //类型:课表图和价格图
 
-    //start getter and setter
+    public Schedule() {
+    }
+
+    public Schedule(String scheduleId, String scheduleImg, String scheduleType) {
+        this.scheduleId = scheduleId;
+        this.scheduleImg = scheduleImg;
+        this.scheduleType = scheduleType;
+    }
+
     public String getScheduleId() {
         return scheduleId;
     }
@@ -22,36 +28,28 @@ public class Schedule {
         this.scheduleId = scheduleId;
     }
 
-    public String getScheduleName() {
-        return scheduleName;
+    public String getScheduleImg() {
+        return scheduleImg;
     }
 
-    public void setScheduleName(String scheduleName) {
-        this.scheduleName = scheduleName;
+    public void setScheduleImg(String scheduleImg) {
+        this.scheduleImg = scheduleImg;
     }
 
-    public String getScheduleContent() {
-        return scheduleContent;
+    public String getScheduleType() {
+        return scheduleType;
     }
 
-    public void setScheduleContent(String scheduleContent) {
-        this.scheduleContent = scheduleContent;
+    public void setScheduleType(String scheduleType) {
+        this.scheduleType = scheduleType;
     }
 
-    public String getScheduleWeekday() {
-        return scheduleWeekday;
+    @Override
+    public String toString() {
+        return "Schedule{" +
+                "scheduleId='" + scheduleId + '\'' +
+                ", scheduleImg='" + scheduleImg + '\'' +
+                ", scheduleType='" + scheduleType + '\'' +
+                '}';
     }
-
-    public void setScheduleWeekday(String scheduleWeekday) {
-        this.scheduleWeekday = scheduleWeekday;
-    }
-
-    public String getScheduleTime() {
-        return scheduleTime;
-    }
-
-    public void setScheduleTime(String scheduleTime) {
-        this.scheduleTime = scheduleTime;
-    }
-    //end getter and setter
 }

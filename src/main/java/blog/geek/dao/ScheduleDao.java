@@ -1,10 +1,9 @@
 package blog.geek.dao;
 
+import blog.geek.entity.Image;
 import blog.geek.entity.Schedule;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 /**
  * 课程表DAO
@@ -15,51 +14,18 @@ import java.util.List;
 public interface ScheduleDao {
 
     /**
-     * 批量添加课程表
-     * @param schedules
-     * @return
-     */
-    int insertSchedules(@Param("schedules") List<Schedule> schedules);
-
-    /**
-     * 插入单个课表
-     * @param schedule
-     * @return
-     */
-    int insertSchedule(Schedule schedule);
-
-    /**
-     * 批量删除课程表
-     * @param scheduleIds
-     * @return
-     */
-    int deleteSchedules(@Param("scheduleIds") List<String> scheduleIds);
-
-    /**
-     * 删除单个课表
-     * @param scheduleId
-     * @return
-     */
-    int deleteSchedule(String scheduleId);
-
-    /**
-     * 批量更新课程表
-     * @param schedules
-     * @return
-     */
-    int updateSchedules(@Param("schedules") List<Schedule> schedules);
-
-    /**
      * 更新单个课表
      * @param schedule
+     * @param image
      * @return
      */
-    int updateSchedule(Schedule schedule);
+    int updateSchedule(@Param("schedule") Schedule schedule, @Param("image") Image image);
 
     /**
-     * 获取整张课程表内容
+     * 获取课表
+     * @param scheduleType
      * @return
      */
-    List<Schedule> findAllSchedules();
+    Schedule findScheduleByType(String scheduleType);
 
 }

@@ -6,7 +6,7 @@
         <result column="wod_title" javaType="String" jdbcType="VARCHAR" property="wodTitle"/>
         <result column="wod_date" javaType="String" jdbcType="VARCHAR" property="wodDate"/>
         <result column="wod_info" javaType="String" jdbcType="VARCHAR" property="wodInfo"/>
-        <result column="image_path" javaType="String" jdbcType="VARCHAR" property="wodImg"/>
+        <result column="image_address" javaType="String" jdbcType="VARCHAR" property="wodImg"/>
     </resultMap>
 
     <insert id="insertWod">
@@ -64,5 +64,13 @@
 
     <select id="getTotal" resultType="_integer">
         SELECT COUNT(wod_id) FROM wod
+    </select>
+
+    <select id="selectWodByTime" resultMap="wod">
+        SELECT wod_id,wod_title,wod_date,wod_info,image_address
+        FROM wod,image
+        WHERE image.image_ref = wod.wod_id
+        AND wod_date = #{arg2,javaType=String}
+        LIMIT #{arg0,javaType=_integer},#{arg1,javaType=_integer}
     </select>
 </mapper>

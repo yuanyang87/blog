@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="blog.geek.dao.AboutUsDao">
+
+    <resultMap id="about" type="aboutUs">
+        <result column="about_title" javaType="String" jdbcType="VARCHAR" property="aboutTitle"/>
+        <result column="about_info" javaType="String" jdbcType="VARCHAR" property="aboutInfo"/>
+    </resultMap>
+
+    <update id="updateAboutUs" parameterType="aboutUs">
+        update aboutus
+        <set>
+            <if test="aboutTitle != null">
+                about_title = #{aboutTitle},
+            </if>
+            <if test="aboutInfo != null">
+                about_info = #{aboutInfo}
+            </if>
+        </set>
+    </update>
+
+    <select id="findAboutUs" resultMap="about">
+        SELECT about_title,about_info FROM aboutus;
+    </select>
+
+</mapper>

@@ -41,4 +41,10 @@ public class WodAction {
         return ResultUtil.successResult(wodPager);
     }
 
+    @RequestMapping(value = "/search",method = RequestMethod.GET)
+    public Result selectWod(int pageIndex,int pageSize,String time){
+        Pager<Wod> wodPager = wodService.selectWodByTime(pageIndex,pageSize,time);
+        return ResultUtil.successResult(wodPager);
+    }
+
 }
